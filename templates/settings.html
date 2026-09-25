@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FaceAttend | Settings</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/settings.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="logo-box">
+                <i class="bi bi-person-bounding-box"></i>
+            </div>
+
+            <div class="brand-info">
+
+                <h2>
+                    Face<span>Attend</span>
+                </h2>
+
+                <small>
+                    EMPLOYEE ATTENDANCE
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-title">
+                MAIN
+            </div>
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link"
+            >
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Dashboard</span>
+            </a>
+
+
+            <div class="nav-title">
+                MANAGEMENT
+            </div>
+
+            <a
+                href="{{ url_for('employees') }}"
+                class="nav-link"
+            >
+                <i class="bi bi-people"></i>
+                <span>Employees</span>
+            </a>
+
+            <a
+                href="{{ url_for('departments') }}"
+                class="nav-link"
+            >
+                <i class="bi bi-building"></i>
+                <span>Departments</span>
+            </a>
+
+            <a
+                href="/face-enrollment"
+                class="nav-link"
+            >
+                <i class="bi bi-person-badge"></i>
+                <span>Face Enrollment</span>
+            </a>
+
+
+            <div class="nav-title">
+                ATTENDANCE
+            </div>
+
+            <a
+                href="{{ url_for('face_recognition') }}"
+                class="nav-link"
+            >
+                <i class="bi bi-camera"></i>
+                <span>Face Recognition</span>
+            </a>
+
+            <a
+                href="{{ url_for('attendance') }}"
+                class="nav-link"
+            >
+                <i class="bi bi-calendar-check"></i>
+                <span>Attendance</span>
+            </a>
+
+
+            <div class="nav-title">
+                REPORTS
+            </div>
+
+            <a
+                href="{{ url_for('reports') }}"
+                class="nav-link"
+            >
+                <i class="bi bi-file-earmark-bar-graph"></i>
+                <span>Reports</span>
+            </a>
+
+
+            <div class="nav-title">
+                SYSTEM
+            </div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="nav-link active"
+            >
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-indicator"></span>
+
+                <span>
+                    System Online
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-link"
+            >
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                >
+                    <i class="bi bi-list"></i>
+                </button>
+
+
+                <div>
+
+                    <div class="page-label">
+                        SYSTEM
+                    </div>
+
+                    <h1>
+                        Settings
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="icon-button">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <div class="admin-profile">
+
+                    <div class="admin-avatar">
+                        {{ admin_name[0]|upper }}
+                    </div>
+
+                    <div class="admin-details">
+
+                        <strong>
+                            {{ admin_name }}
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             PAGE CONTENT
+        ====================================================== -->
+
+        <div class="page-content">
+
+
+            <section class="settings-header">
+
+                <div>
+
+                    <div class="settings-label">
+                        SYSTEM CONFIGURATION
+                    </div>
+
+                    <h2>
+                        Attendance Settings
+                    </h2>
+
+                    <p>
+                        Configure the working hours and attendance rules
+                        used by FaceAttend.
+                    </p>
+
+                </div>
+
+
+                <div class="system-operational">
+
+                    <span class="pulse-dot"></span>
+
+                    System Operational
+
+                </div>
+
+            </section>
+
+
+            {% if saved %}
+
+            <div class="settings-alert success">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                <span>
+                    Attendance settings saved successfully.
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if error %}
+
+            <div class="settings-alert error">
+
+                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                <span>
+                    {{ error }}
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 SETTINGS GRID
+            ================================================== -->
+
+            <form
+                method="POST"
+                action="{{ url_for('settings') }}"
+                class="settings-grid"
+            >
+
+
+                <!-- WORKING HOURS -->
+
+                <section class="settings-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                WORK SCHEDULE
+                            </span>
+
+                            <h3>
+                                Working Hours
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-body">
+
+
+                        <div class="setting-field">
+
+                            <label for="work_start_time">
+                                Work Start Time
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-clock"></i>
+
+                                <input
+                                    type="time"
+                                    id="work_start_time"
+                                    name="work_start_time"
+                                    value="{{ settings.work_start_time }}"
+                                    required
+                                >
+
+                            </div>
+
+                            <small>
+                                Official start time for the working day.
+                            </small>
+
+                        </div>
+
+
+                        <div class="setting-field">
+
+                            <label for="work_end_time">
+                                Work End Time
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-clock-history"></i>
+
+                                <input
+                                    type="time"
+                                    id="work_end_time"
+                                    name="work_end_time"
+                                    value="{{ settings.work_end_time }}"
+                                    required
+                                >
+
+                            </div>
+
+                            <small>
+                                Official end time for the working day.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- ATTENDANCE RULES -->
+
+                <section class="settings-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                ATTENDANCE RULES
+                            </span>
+
+                            <h3>
+                                Attendance Policy
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-body">
+
+
+                        <div class="setting-field">
+
+                            <label for="late_threshold_minutes">
+                                Late Threshold
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-hourglass-split"></i>
+
+                                <input
+                                    type="number"
+                                    id="late_threshold_minutes"
+                                    name="late_threshold_minutes"
+                                    min="0"
+                                    max="120"
+                                    value="{{ settings.late_threshold_minutes }}"
+                                    required
+                                >
+
+                                <span class="input-unit">
+                                    minutes
+                                </span>
+
+                            </div>
+
+                            <small>
+                                Employees arriving after this period
+                                are marked Late.
+                            </small>
+
+                        </div>
+
+
+                        <div class="setting-field">
+
+                            <label for="minimum_work_hours">
+                                Minimum Work Hours
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-hourglass"></i>
+
+                                <input
+                                    type="number"
+                                    id="minimum_work_hours"
+                                    name="minimum_work_hours"
+                                    min="0"
+                                    max="24"
+                                    step="0.25"
+                                    value="{{ settings.minimum_work_hours }}"
+                                    required
+                                >
+
+                                <span class="input-unit">
+                                    hours
+                                </span>
+
+                            </div>
+
+                            <small>
+                                Minimum number of hours expected
+                                during the workday.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- SAVE AREA -->
+
+                <section class="settings-panel settings-save-panel">
+
+                    <div class="save-info">
+
+                        <div class="save-icon">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Configuration Protection
+                            </strong>
+
+                            <small>
+                                These settings control attendance
+                                classification throughout the system.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="save-settings-btn"
+                    >
+
+                        <i class="bi bi-check2"></i>
+
+                        Save Settings
+
+                    </button>
+
+                </section>
+
+
+            </form>
+
+
+            <!-- FOOTER -->
+
+            <footer class="dashboard-footer">
+
+                <span>
+                    FaceAttend
+                </span>
+
+                <span>
+                    /
+                </span>
+
+                <span>
+                    Employee Attendance System
+                </span>
+
+                <span class="footer-space"></span>
+
+                <span>
+                    © 2026 FaceAttend
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menuButton =
+        document.getElementById("mobileMenuBtn");
+
+    const sidebar =
+        document.querySelector(".sidebar");
+
+
+    if (menuButton && sidebar) {
+
+        menuButton.addEventListener("click", function () {
+
+            sidebar.classList.toggle("open");
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

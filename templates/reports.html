@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Reports | FaceAttend
+    </title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- Dashboard / Global -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}"
+    >
+
+
+    <!-- Reports -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/reports.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="dashboard-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- SIDEBAR HEADER -->
+
+        <div class="sidebar-header">
+
+            <div class="logo-box">
+
+                <i class="bi bi-person-bounding-box"></i>
+
+            </div>
+
+
+            <div class="brand-info">
+
+                <h2>
+                    Face<span>Attend</span>
+                </h2>
+
+                <small>
+                    EMPLOYEE ATTENDANCE
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SIDEBAR NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+
+            <!-- MAIN -->
+
+            <div class="nav-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link"
+            >
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+
+            <!-- MANAGEMENT -->
+
+            <div class="nav-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="{{ url_for('employees') }}"
+                class="nav-link"
+            >
+
+                <i class="bi bi-people"></i>
+
+                <span>
+                    Employees
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('departments') }}"
+                class="nav-link"
+            >
+
+                <i class="bi bi-building"></i>
+
+                <span>
+                    Departments
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('face_enrollment_list') }}"
+                class="nav-link"
+            >
+
+                <i class="bi bi-person-badge"></i>
+
+                <span>
+                    Face Enrollment
+                </span>
+
+            </a>
+
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="nav-title">
+                ATTENDANCE
+            </div>
+
+
+            <a
+                href="{{ url_for('face_recognition') }}"
+                class="nav-link"
+            >
+
+                <i class="bi bi-camera"></i>
+
+                <span>
+                    Face Recognition
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('attendance') }}"
+                class="nav-link"
+            >
+
+                <i class="bi bi-calendar-check"></i>
+
+                <span>
+                    Attendance
+                </span>
+
+            </a>
+
+
+
+            <!-- REPORTS -->
+
+            <div class="nav-title">
+                REPORTS
+            </div>
+
+
+            <a
+                href="{{ url_for('reports') }}"
+                class="nav-link active"
+            >
+
+                <i class="bi bi-file-earmark-bar-graph"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+
+            <!-- SYSTEM -->
+
+            <div class="nav-title">
+                SYSTEM
+            </div>
+
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="nav-link"
+            >
+
+                <i class="bi bi-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="sidebar-footer">
+
+
+            <div class="system-status">
+
+                <span class="status-indicator"></span>
+
+                <span>
+                    System Online
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-link"
+            >
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    type="button"
+                >
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <div>
+
+                    <div class="page-label">
+                        REPORTS
+                    </div>
+
+                    <h1>
+                        Attendance Reports
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="topbar-right">
+
+
+                <!-- =================================================
+                     NOTIFICATIONS
+                ================================================== -->
+
+                <div class="notification-wrapper">
+
+
+                    <button
+                        class="icon-button notification-button"
+                        id="notificationButton"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+
+                        <i class="bi bi-bell"></i>
+
+
+                        <span
+                            class="notification-count"
+                            id="notificationCount"
+                        >
+                            0
+                        </span>
+
+                    </button>
+
+
+
+                    <div
+                        class="notification-dropdown"
+                        id="notificationDropdown"
+                    >
+
+
+                        <div class="notification-header">
+
+
+                            <div>
+
+                                <span>
+                                    NOTIFICATIONS
+                                </span>
+
+                                <h3>
+                                    Activity Center
+                                </h3>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="mark-all-btn"
+                                id="markAllNotifications"
+                            >
+                                Mark all read
+                            </button>
+
+                        </div>
+
+
+
+                        <div
+                            class="notification-list"
+                            id="notificationList"
+                        >
+
+                            <div class="notification-loading">
+
+                                <i class="bi bi-arrow-repeat"></i>
+
+                                <span>
+                                    Loading notifications...
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="notification-footer">
+
+                            <span>
+                                FaceAttend
+                            </span>
+
+                            <span>
+                                System notifications
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ADMIN PROFILE
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('admin_profile') }}"
+                    class="admin-profile"
+                    aria-label="Open administrator profile"
+                >
+
+
+                    <div class="admin-avatar">
+
+                        {{ admin_name[0]|upper }}
+
+                    </div>
+
+
+                    <div class="admin-details">
+
+                        <strong>
+                            {{ admin_name }}
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </a>
+
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content">
+
+
+            <div class="reports-page">
+
+
+                <!-- =================================================
+                     REPORT HEADER
+                ================================================== -->
+
+                <div class="reports-header">
+
+
+                    <div>
+
+                        <div class="reports-kicker">
+                            ATTENDANCE ANALYTICS
+                        </div>
+
+
+                        <h2>
+                            Attendance Reports
+                        </h2>
+
+
+                        <p>
+                            Automatically generated employee attendance
+                            reports and detailed attendance records.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ERROR
+                ================================================== -->
+
+                {% if error %}
+
+                <div class="reports-alert">
+
+                    <i class="bi bi-exclamation-circle"></i>
+
+                    <span>
+                        {{ error }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+
+                <!-- =================================================
+                     AUTOMATIC REPORT STATUS
+                ================================================== -->
+
+                <div class="automatic-report-banner">
+
+
+                    <div class="automatic-report-icon">
+
+                        <i class="bi bi-robot"></i>
+
+                    </div>
+
+
+                    <div class="automatic-report-content">
+
+                        <span>
+                            AUTOMATIC REPORTING
+                        </span>
+
+
+                        <strong>
+                            Daily reports are generated automatically.
+                        </strong>
+
+
+                        <small>
+                            Reports are generated after the attendance day
+                            and stored securely for review.
+                        </small>
+
+                    </div>
+
+
+                    <div class="automatic-report-status">
+
+                        <span class="online-indicator"></span>
+
+                        <span>
+                            Automatic
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     FILTER CARD
+                ================================================== -->
+
+                <div class="reports-filter-card">
+
+
+                    <div class="reports-card-header">
+
+
+                        <div class="reports-card-icon">
+
+                            <i class="bi bi-funnel"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                REPORT FILTERS
+                            </span>
+
+                            <h3>
+                                Filter Attendance Records
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form
+                        method="GET"
+                        action="{{ url_for('reports') }}"
+                        class="reports-filter-form"
+                    >
+
+
+                        <div class="report-filter-grid">
+
+
+                            <!-- DATE FROM -->
+
+                            <div class="report-filter-group">
+
+                                <label for="date_from">
+                                    From Date
+                                </label>
+
+
+                                <div class="report-input-wrapper">
+
+                                    <i class="bi bi-calendar3"></i>
+
+
+                                    <input
+                                        type="date"
+                                        id="date_from"
+                                        name="date_from"
+                                        value="{{ date_from }}"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- DATE TO -->
+
+                            <div class="report-filter-group">
+
+                                <label for="date_to">
+                                    To Date
+                                </label>
+
+
+                                <div class="report-input-wrapper">
+
+                                    <i class="bi bi-calendar3"></i>
+
+
+                                    <input
+                                        type="date"
+                                        id="date_to"
+                                        name="date_to"
+                                        value="{{ date_to }}"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="report-filter-group">
+
+                                <label for="department_id">
+                                    Department
+                                </label>
+
+
+                                <div class="report-input-wrapper">
+
+                                    <i class="bi bi-building"></i>
+
+
+                                    <select
+                                        id="department_id"
+                                        name="department_id"
+                                    >
+
+                                        <option value="">
+                                            All Departments
+                                        </option>
+
+
+                                        {% for department in departments %}
+
+                                        <option
+                                            value="{{ department.id }}"
+                                            {% if department_id|string == department.id|string %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            {{ department.name }}
+                                        </option>
+
+                                        {% endfor %}
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- STATUS -->
+
+                            <div class="report-filter-group">
+
+                                <label for="status">
+                                    Status
+                                </label>
+
+
+                                <div class="report-input-wrapper">
+
+                                    <i class="bi bi-check2-circle"></i>
+
+
+                                    <select
+                                        id="status"
+                                        name="status"
+                                    >
+
+                                        <option value="">
+                                            All Statuses
+                                        </option>
+
+
+                                        <option
+                                            value="Present"
+                                            {% if status == "Present" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Present
+                                        </option>
+
+
+                                        <option
+                                            value="Late"
+                                            {% if status == "Late" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Late
+                                        </option>
+
+
+                                        <option
+                                            value="Absent"
+                                            {% if status == "Absent" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Absent
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- FILTER BUTTONS -->
+
+                        <div class="report-filter-actions">
+
+
+                            <a
+                                href="{{ url_for('reports') }}"
+                                class="report-clear-button"
+                            >
+
+                                <i class="bi bi-arrow-counterclockwise"></i>
+
+                                Clear Filters
+
+                            </a>
+
+
+                            <button
+                                type="submit"
+                                class="report-generate-button"
+                            >
+
+                                <i class="bi bi-filter"></i>
+
+                                Apply Filters
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DAILY AUTOMATIC REPORTS
+                ================================================== -->
+
+                <div class="reports-results-card">
+
+
+                    <div class="reports-results-header">
+
+
+                        <div>
+
+                            <span>
+                                AUTOMATIC DAILY REPORTS
+                            </span>
+
+                            <h3>
+                                Daily Attendance Summaries
+                            </h3>
+
+                        </div>
+
+
+                        <span class="results-count">
+
+                            {{ daily_reports|length }}
+
+                            {% if daily_reports|length == 1 %}
+
+                                Report
+
+                            {% else %}
+
+                                Reports
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+
+                    {% if daily_reports %}
+
+
+                    <div class="table-responsive">
+
+
+                        <table class="reports-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Report Date
+                                    </th>
+
+                                    <th>
+                                        Total Employees
+                                    </th>
+
+                                    <th>
+                                        Present
+                                    </th>
+
+                                    <th>
+                                        Late
+                                    </th>
+
+                                    <th>
+                                        Absent
+                                    </th>
+
+                                    <th>
+                                        Generated At
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+
+                            <tbody>
+
+
+                                {% for report in daily_reports %}
+
+
+                                <tr>
+
+
+                                    <!-- REPORT DATE -->
+
+                                    <td>
+
+                                        <div class="employee-table-name">
+
+
+                                            <div class="employee-table-avatar">
+
+                                                <i class="bi bi-calendar-day"></i>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+
+                                                    {{ report.report_date.strftime('%d %b %Y') }}
+
+                                                </strong>
+
+
+                                                <small>
+
+                                                    Daily attendance summary
+
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+
+                                    <!-- TOTAL -->
+
+                                    <td>
+
+                                        <strong>
+                                            {{ report.total_employees }}
+                                        </strong>
+
+                                    </td>
+
+
+
+                                    <!-- PRESENT -->
+
+                                    <td>
+
+                                        <span class="report-status present">
+
+                                            <span></span>
+
+                                            {{ report.present_count }}
+
+                                        </span>
+
+                                    </td>
+
+
+
+                                    <!-- LATE -->
+
+                                    <td>
+
+                                        <span class="report-status late">
+
+                                            <span></span>
+
+                                            {{ report.late_count }}
+
+                                        </span>
+
+                                    </td>
+
+
+
+                                    <!-- ABSENT -->
+
+                                    <td>
+
+                                        <span class="report-status absent">
+
+                                            <span></span>
+
+                                            {{ report.absent_count }}
+
+                                        </span>
+
+                                    </td>
+
+
+
+                                    <!-- GENERATED AT -->
+
+                                    <td>
+
+                                        {% if report.generated_at %}
+
+                                            {{ report.generated_at.strftime('%d %b %Y, %H:%M') }}
+
+                                        {% else %}
+
+                                            --
+
+                                        {% endif %}
+
+                                    </td>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        {% if report.status == "Generated" %}
+
+
+                                            <span class="report-status present">
+
+                                                <span></span>
+
+                                                Generated
+
+                                            </span>
+
+
+                                        {% else %}
+
+
+                                            <span class="report-status absent">
+
+                                                <span></span>
+
+                                                {{ report.status or "Failed" }}
+
+                                            </span>
+
+
+                                        {% endif %}
+
+                                    </td>
+
+
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+                                        <a
+                                            href="{{ url_for(
+                                                'daily_report_details',
+                                                report_date=report.report_date.strftime('%Y-%m-%d')
+                                            ) }}"
+                                            class="report-view-button"
+                                        >
+
+                                            <i class="bi bi-eye"></i>
+
+                                            View
+
+                                        </a>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                                {% endfor %}
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <div class="reports-empty">
+
+
+                        <div class="reports-empty-icon">
+
+                            <i class="bi bi-file-earmark-bar-graph"></i>
+
+                        </div>
+
+
+                        <h4>
+                            No Daily Reports Yet
+                        </h4>
+
+
+                        <p>
+                            No automatically generated daily reports
+                            match the selected date range.
+                        </p>
+
+                    </div>
+
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- =================================================
+                     REPORT STATISTICS
+                ================================================== -->
+
+                <div class="report-stat-grid">
+
+
+                    <!-- TOTAL -->
+
+                    <div class="report-stat-card">
+
+
+                        <div class="report-stat-icon blue">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                TOTAL RECORDS
+                            </span>
+
+
+                            <strong>
+                                {{ total_records }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PRESENT -->
+
+                    <div class="report-stat-card">
+
+
+                        <div class="report-stat-icon green">
+
+                            <i class="bi bi-check-circle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                PRESENT
+                            </span>
+
+
+                            <strong>
+                                {{ present_count }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LATE -->
+
+                    <div class="report-stat-card">
+
+
+                        <div class="report-stat-icon orange">
+
+                            <i class="bi bi-clock-history"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                LATE
+                            </span>
+
+
+                            <strong>
+                                {{ late_count }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ABSENT -->
+
+                    <div class="report-stat-card">
+
+
+                        <div class="report-stat-icon red">
+
+                            <i class="bi bi-x-circle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                ABSENT
+                            </span>
+
+
+                            <strong>
+                                {{ absent_count }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DETAILED ATTENDANCE RECORDS
+                ================================================== -->
+
+                <div class="reports-results-card">
+
+
+                    <div class="reports-results-header">
+
+
+                        <div>
+
+                            <span>
+                                ATTENDANCE RECORDS
+                            </span>
+
+
+                            <h3>
+                                Detailed Attendance Records
+                            </h3>
+
+                        </div>
+
+
+
+                        <!-- EXPORT + RECORD COUNT -->
+
+                        <div class="report-header-actions">
+
+
+                            <div class="report-export-actions">
+
+
+                                <!-- CSV -->
+
+                                <a
+                                    href="{{ url_for(
+                                        'export_reports_csv',
+                                        date_from=date_from,
+                                        date_to=date_to,
+                                        department_id=department_id,
+                                        status=status
+                                    ) }}"
+                                    class="report-export-button csv"
+                                    title="Export attendance records as CSV"
+                                >
+
+                                    <i class="bi bi-filetype-csv"></i>
+
+                                    Export CSV
+
+                                </a>
+
+
+
+                                <!-- PDF -->
+
+                                <a
+                                    href="{{ url_for(
+                                        'export_reports_pdf',
+                                        date_from=date_from,
+                                        date_to=date_to,
+                                        department_id=department_id,
+                                        status=status
+                                    ) }}"
+                                    class="report-export-button pdf"
+                                    title="Export attendance records as PDF"
+                                >
+
+                                    <i class="bi bi-file-earmark-pdf"></i>
+
+                                    Export PDF
+
+                                </a>
+
+                            </div>
+
+
+
+                            <span class="results-count">
+
+                                {{ total_records }}
+
+                                {% if total_records == 1 %}
+
+                                    Record
+
+                                {% else %}
+
+                                    Records
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    {% if attendance_records %}
+
+
+                    <div class="table-responsive">
+
+
+                        <table class="reports-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Employee
+                                    </th>
+
+                                    <th>
+                                        Employee No.
+                                    </th>
+
+                                    <th>
+                                        Department
+                                    </th>
+
+                                    <th>
+                                        Check In
+                                    </th>
+
+                                    <th>
+                                        Check Out
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+
+                            <tbody>
+
+
+                                {% for record in attendance_records %}
+
+
+                                <tr>
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        {{ record.attendance_date }}
+
+                                    </td>
+
+
+
+                                    <!-- EMPLOYEE -->
+
+                                    <td>
+
+                                        <div class="employee-table-name">
+
+
+                                            <div class="employee-table-avatar">
+
+                                                <i class="bi bi-person"></i>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+
+                                                    {{ record.first_name }}
+                                                    {{ record.last_name }}
+
+                                                </strong>
+
+
+                                                <small>
+
+                                                    {{ record.position or 'Employee' }}
+
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+
+                                    <!-- EMPLOYEE NUMBER -->
+
+                                    <td>
+
+                                        {{ record.employee_number }}
+
+                                    </td>
+
+
+
+                                    <!-- DEPARTMENT -->
+
+                                    <td>
+
+                                        {{ record.department_name or 'Not assigned' }}
+
+                                    </td>
+
+
+
+                                    <!-- CHECK IN -->
+
+                                    <td>
+
+                                        {{ record.check_in or '--' }}
+
+                                    </td>
+
+
+
+                                    <!-- CHECK OUT -->
+
+                                    <td>
+
+                                        {{ record.check_out or '--' }}
+
+                                    </td>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+
+                                        {% if record.status == "Present" %}
+
+
+                                        <span class="report-status present">
+
+                                            <span></span>
+
+                                            Present
+
+                                        </span>
+
+
+                                        {% elif record.status == "Late" %}
+
+
+                                        <span class="report-status late">
+
+                                            <span></span>
+
+                                            Late
+
+                                        </span>
+
+
+                                        {% elif record.status == "Absent" %}
+
+
+                                        <span class="report-status absent">
+
+                                            <span></span>
+
+                                            Absent
+
+                                        </span>
+
+
+                                        {% else %}
+
+
+                                        <span class="report-status">
+
+                                            <span></span>
+
+                                            {{ record.status or 'Unknown' }}
+
+                                        </span>
+
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                </tr>
+
+
+                                {% endfor %}
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <div class="reports-empty">
+
+
+                        <div class="reports-empty-icon">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                        </div>
+
+
+                        <h4>
+                            No Attendance Records
+                        </h4>
+
+
+                        <p>
+                            No attendance records match the selected filters.
+                        </p>
+
+
+                        <a
+                            href="{{ url_for('reports') }}"
+                            class="report-clear-button"
+                        >
+
+                            <i class="bi bi-arrow-counterclockwise"></i>
+
+                            Reset Filters
+
+                        </a>
+
+                    </div>
+
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =====================================================
+     BOOTSTRAP JAVASCRIPT
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- =====================================================
+     DASHBOARD JAVASCRIPT
+====================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/dashboard.js') }}">
+</script>
+
+
+</body>
+
+</html>

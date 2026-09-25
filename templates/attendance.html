@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>FaceAttend | Attendance</title>
+
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+    <!-- Dashboard CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+
+    <!-- Attendance CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/attendance.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="dashboard-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <!-- BRAND -->
+
+        <div class="sidebar-header">
+
+            <div class="logo-box">
+                <i class="bi bi-person-bounding-box"></i>
+            </div>
+
+
+            <div class="brand-info">
+
+                <h2>
+                    Face<span>Attend</span>
+                </h2>
+
+                <small>
+                    EMPLOYEE ATTENDANCE
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+
+            <div class="nav-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="{{ url_for('employees') }}"
+                class="nav-link">
+
+                <i class="bi bi-people"></i>
+
+                <span>
+                    Employees
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('departments') }}"
+                class="nav-link">
+
+                <i class="bi bi-building"></i>
+
+                <span>
+                    Departments
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('face_enrollment_list') }}"
+                class="nav-link">
+
+                <i class="bi bi-person-badge"></i>
+
+                <span>
+                    Face Enrollment
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">
+                ATTENDANCE
+            </div>
+
+
+            <a
+                href="{{ url_for('face_recognition') }}"
+                class="nav-link">
+
+                <i class="bi bi-camera"></i>
+
+                <span>
+                    Face Recognition
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('attendance') }}"
+                class="nav-link active">
+
+                <i class="bi bi-calendar-check"></i>
+
+                <span>
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">
+                REPORTS
+            </div>
+
+
+            <a
+                href="{{ url_for('reports') }}"
+                class="nav-link">
+
+                <i class="bi bi-file-earmark-bar-graph"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">
+                SYSTEM
+            </div>
+
+
+           <a
+    href="{{ url_for('settings') }}"
+    class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}"
+>
+    <i class="bi bi-gear"></i>
+    <span>Settings</span>
+</a>
+
+        </nav>
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-indicator"></span>
+
+                <span>
+                    System Online
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-link">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    type="button">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <div>
+
+                    <div class="page-label">
+                        ATTENDANCE MANAGEMENT
+                    </div>
+
+                    <h1>
+                        Attendance
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <button
+                    class="icon-button"
+                    type="button">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span
+                        class="notification-dot">
+                    </span>
+
+                </button>
+
+
+                <div class="admin-profile">
+
+
+                    <div class="admin-avatar">
+
+                        {{ session.get(
+                            "admin_full_name",
+                            session.get(
+                                "admin_username",
+                                "A"
+                            )
+                        )[0]|upper }}
+
+                    </div>
+
+
+                    <div class="admin-details">
+
+                        <strong>
+
+                            {{ session.get(
+                                "admin_full_name",
+                                session.get(
+                                    "admin_username",
+                                    "Administrator"
+                                )
+                            ) }}
+
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             ATTENDANCE PAGE
+        ====================================================== -->
+
+        <div class="attendance-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="attendance-header">
+
+
+                <div class="attendance-title">
+
+                    <small>
+                        DAILY ATTENDANCE SESSION
+                    </small>
+
+
+                    <h2>
+                        Today's Attendance
+                    </h2>
+
+
+                    <p>
+                        Manage today's employee attendance
+                        session and monitor attendance activity.
+                    </p>
+
+                </div>
+
+
+                <div class="attendance-session-actions">
+
+
+                    {% if attendance_session
+                          and attendance_session.status == "Active" %}
+
+                        <div
+                            class="start-attendance-btn active">
+
+                            <i class="bi bi-broadcast"></i>
+
+                            Attendance Active
+
+                            <i class="bi bi-check2"></i>
+
+                        </div>
+
+
+                        <!-- CLOSE ATTENDANCE BUTTON -->
+
+                        <button
+                            type="button"
+                            class="start-attendance-btn close-attendance-btn"
+                            id="closeAttendanceBtn">
+
+                            <i class="bi bi-stop-circle"></i>
+
+                            Close Today's Attendance
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </button>
+
+
+                    {% elif attendance_session
+                          and attendance_session.status == "Closed" %}
+
+                        <div
+                            class="start-attendance-btn closed">
+
+                            <i class="bi bi-check-circle"></i>
+
+                            Attendance Closed
+
+                            <i class="bi bi-check2"></i>
+
+                        </div>
+
+
+                    {% else %}
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('start_attendance') }}">
+
+                            <button
+                                type="submit"
+                                class="start-attendance-btn">
+
+                                <i class="bi bi-camera-fill"></i>
+
+                                Start Today's Attendance
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 SESSION STATUS
+            ====================================================== -->
+
+            <div class="attendance-status-card">
+
+
+                <div class="attendance-status-row">
+
+
+                    <div class="status-left">
+
+
+                        {% if attendance_session
+                              and attendance_session.status == "Active" %}
+
+                            <div
+                                class="status-icon active">
+
+                                <i class="bi bi-broadcast-pin"></i>
+
+                            </div>
+
+
+                            <div class="status-text">
+
+                                <span>
+                                    SESSION STATUS
+                                </span>
+
+
+                                <strong>
+                                    Today's attendance session is active
+                                </strong>
+
+                            </div>
+
+
+                        {% elif attendance_session
+                              and attendance_session.status == "Closed" %}
+
+                            <div
+                                class="status-icon closed">
+
+                                <i class="bi bi-check-circle"></i>
+
+                            </div>
+
+
+                            <div class="status-text">
+
+                                <span>
+                                    SESSION STATUS
+                                </span>
+
+
+                                <strong>
+                                    Today's attendance session is closed
+                                </strong>
+
+                            </div>
+
+
+                        {% else %}
+
+                            <div
+                                class="status-icon pending">
+
+                                <i class="bi bi-pause-circle"></i>
+
+                            </div>
+
+
+                            <div class="status-text">
+
+                                <span>
+                                    SESSION STATUS
+                                </span>
+
+
+                                <strong>
+                                    Today's attendance session has not started
+                                </strong>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="status-meta">
+
+
+                        <div class="status-meta-item">
+
+                            <span>
+                                DATE
+                            </span>
+
+
+                            <strong>
+
+                                {% if attendance_session %}
+
+                                    {{ attendance_session.attendance_date }}
+
+                                {% else %}
+
+                                    Today
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="status-meta-item">
+
+                            <span>
+                                START TIME
+                            </span>
+
+
+                            <strong>
+
+                                {% if attendance_session %}
+
+                                    {{ attendance_session.started_at }}
+
+                                {% else %}
+
+                                    --
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="status-meta-item">
+
+                            <span>
+                                END TIME
+                            </span>
+
+
+                            <strong>
+
+                                {% if attendance_session
+                                      and attendance_session.ended_at %}
+
+                                    {{ attendance_session.ended_at }}
+
+                                {% else %}
+
+                                    --
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="status-meta-item">
+
+                            <span>
+                                STATUS
+                            </span>
+
+
+                            <strong>
+
+                                {% if attendance_session %}
+
+                                    {{ attendance_session.status }}
+
+                                {% else %}
+
+                                    Not Started
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 ACTIVE ATTENDANCE RECOGNITION
+            ====================================================== -->
+
+            {% if attendance_session
+                  and attendance_session.status == "Active" %}
+
+
+            <div class="attendance-recognition-layout">
+
+
+                <!-- =================================================
+                     CAMERA PANEL
+                ================================================== -->
+
+                <div class="camera-panel">
+
+
+                    <div class="panel-header">
+
+
+                        <div>
+
+                            <h3>
+
+                                <i class="bi bi-camera-video"></i>
+
+                                Attendance Camera
+
+                            </h3>
+
+
+                            <span>
+                                Live employee face recognition
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="camera-status"
+                            id="cameraStatus">
+
+                            <span class="status-dot"></span>
+
+                            Camera Offline
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CAMERA CONTAINER -->
+
+                    <div
+                        class="camera-wrapper"
+                        id="cameraContainer">
+
+
+                        <!-- VIDEO -->
+
+                        <video
+                            id="attendanceCamera"
+                            autoplay
+                            playsinline
+                            muted>
+                        </video>
+
+
+                        <!-- CANVAS -->
+
+                        <canvas
+                            id="attendanceCanvas">
+                        </canvas>
+
+
+                        <!-- CAMERA PLACEHOLDER -->
+
+                        <div
+                            class="camera-placeholder"
+                            id="cameraPlaceholder">
+
+
+                            <div class="camera-icon">
+
+                                <i
+                                    class="bi bi-camera-video">
+                                </i>
+
+                            </div>
+
+
+                            <h3>
+                                Attendance Camera
+                            </h3>
+
+
+                            <p>
+                                Position the employee in front
+                                of the camera to begin recognition.
+                            </p>
+
+
+                            <div
+                                class="camera-status active"
+                                id="cameraStatusPlaceholder">
+
+                                <span></span>
+
+                                Attendance Session Ready
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FACE SCANNING FRAME -->
+
+                        <div
+                            class="face-scan-frame"
+                            id="faceScanFrame">
+
+
+                            <div
+                                class="scan-corner top-left">
+                            </div>
+
+
+                            <div
+                                class="scan-corner top-right">
+                            </div>
+
+
+                            <div
+                                class="scan-corner bottom-left">
+                            </div>
+
+
+                            <div
+                                class="scan-corner bottom-right">
+                            </div>
+
+
+                            <div
+                                class="face-scan-line">
+                            </div>
+
+                        </div>
+
+
+                        <!-- LIVE CAMERA STATUS -->
+
+                        <div
+                            class="camera-live-status">
+
+
+                            <span
+                                class="live-dot">
+                            </span>
+
+
+                            <span
+                                id="cameraLiveText">
+
+                                Camera Offline
+
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- CAMERA CONTROLS -->
+
+                    <div
+                        class="camera-controls">
+
+
+                        <button
+                            type="button"
+                            id="startAttendanceCameraBtn"
+                            class="btn-camera primary">
+
+                            <i
+                                class="bi bi-camera-video">
+                            </i>
+
+                            Start Camera
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="stopAttendanceCameraBtn"
+                            class="btn-camera danger"
+                            disabled>
+
+                            <i
+                                class="bi bi-stop-circle">
+                            </i>
+
+                            Stop Camera
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- RECOGNITION MESSAGE -->
+
+                    <div
+                        class="recognition-message"
+                        id="attendanceRecognitionMessage">
+
+                        Position the employee in front
+                        of the camera.
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     EMPLOYEE + OTP PANEL
+                ================================================== -->
+
+                <div
+                    class="attendance-verification-panel">
+
+
+                    <!-- EMPLOYEE RESULT -->
+
+                    <div
+                        class="recognition-card"
+                        id="attendanceEmployeeCard"
+                        style="display: none;">
+
+
+                        <div
+                            class="employee-result-header">
+
+
+                            <div
+                                class="employee-result-icon">
+
+                                <i
+                                    class="bi bi-person-check">
+                                </i>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    EMPLOYEE IDENTIFIED
+                                </span>
+
+
+                                <h3
+                                    id="attendanceEmployeeName">
+
+                                    --
+
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="employee-details">
+
+
+                            <div
+                                class="employee-detail-item">
+
+                                <span>
+                                    EMPLOYEE NUMBER
+                                </span>
+
+
+                                <strong
+                                    id="attendanceEmployeeNumber">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                class="employee-detail-item">
+
+                                <span>
+                                    DEPARTMENT
+                                </span>
+
+
+                                <strong
+                                    id="attendanceEmployeeDepartment">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                class="employee-detail-item">
+
+                                <span>
+                                    POSITION
+                                </span>
+
+
+                                <strong
+                                    id="attendanceEmployeePosition">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OTP CARD -->
+
+                    <div
+                        class="recognition-card otp-card"
+                        id="attendanceOtpCard"
+                        style="display: none;">
+
+
+                        <div
+                            class="employee-result-header">
+
+
+                            <div
+                                class="employee-result-icon">
+
+                                <i
+                                    class="bi bi-shield-check">
+                                </i>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    ATTENDANCE VERIFICATION
+                                </span>
+
+
+                                <h3>
+                                    Verify Employee
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <p>
+                            A six-digit verification code will
+                            be sent to the employee's registered
+                            email address.
+                        </p>
+
+
+                        <div
+                            class="alert alert-info"
+                            id="attendanceOtpDestination">
+
+                            Verification code will be sent
+                            to the employee's email.
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="btn-camera primary w-100"
+                            id="attendanceSendOtpBtn">
+
+                            <i class="bi bi-envelope"></i>
+
+                            Send Verification Code
+
+                        </button>
+
+
+                        <div
+                            id="attendanceOtpInputSection"
+                            style="display: none;">
+
+
+                            <div class="mt-4">
+
+
+                                <label
+                                    for="attendanceOtpInput"
+                                    class="form-label">
+
+                                    Enter 6-Digit Verification Code
+
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    class="form-control text-center"
+                                    id="attendanceOtpInput"
+                                    maxlength="6"
+                                    inputmode="numeric"
+                                    autocomplete="one-time-code"
+                                    placeholder="000000">
+
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-success w-100 mt-3"
+                                id="attendanceVerifyOtpBtn">
+
+                                <i
+                                    class="bi bi-check-circle">
+                                </i>
+
+                                Verify & Record Attendance
+
+                            </button>
+
+
+                            <div
+                                class="small text-muted text-center mt-3"
+                                id="attendanceOtpStatus">
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SYSTEM STATUS -->
+
+                    <div
+                        class="recognition-card">
+
+
+                        <div
+                            class="security-icon">
+
+                            <i
+                                class="bi bi-shield-check">
+                            </i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Attendance Recognition Ready
+                            </strong>
+
+
+                            <p
+                                id="attendanceStatusText">
+
+                                The system will identify an enrolled
+                                employee and request OTP verification
+                                before recording attendance.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- =================================================
+                 SESSION NOT ACTIVE
+            ================================================== -->
+
+            <div class="recognition-panel">
+
+
+                <div class="recognition-grid"></div>
+
+
+                <div class="recognition-content">
+
+
+                    <div class="camera-icon">
+
+                        {% if attendance_session
+                              and attendance_session.status == "Closed" %}
+
+                            <i
+                                class="bi bi-check-circle">
+                            </i>
+
+                        {% else %}
+
+                            <i
+                                class="bi bi-camera-video">
+                            </i>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <h3>
+
+                        {% if attendance_session
+                              and attendance_session.status == "Closed" %}
+
+                            Attendance Session Closed
+
+                        {% else %}
+
+                            Face Recognition Attendance
+
+                        {% endif %}
+
+                    </h3>
+
+
+                    <p>
+
+                        {% if attendance_session
+                              and attendance_session.status == "Closed" %}
+
+                            Today's attendance session has been
+                            closed. No further attendance scans
+                            can be recorded.
+
+                        {% else %}
+
+                            Start today's attendance session to
+                            activate employee face recognition.
+
+                        {% endif %}
+
+                    </p>
+
+
+                    <div class="camera-status">
+
+
+                        {% if attendance_session
+                              and attendance_session.status == "Closed" %}
+
+                            <span></span>
+
+                            Today's Attendance Closed
+
+                        {% else %}
+
+                            <span></span>
+
+                            Start Today's Attendance First
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% endif %}
+
+
+
+            <!-- =====================================================
+                 TODAY'S RECORDS
+            ====================================================== -->
+
+            <div class="attendance-table-panel">
+
+
+                <div class="panel-header">
+
+
+                    <div>
+
+                        <span>
+                            TODAY'S RECORDS
+                        </span>
+
+
+                        <h3>
+                            Employee Attendance
+                        </h3>
+
+                    </div>
+
+
+                    <div class="records-count">
+
+                        <strong>
+                            {{ attendance_records|length }}
+                        </strong>
+
+                        <span>
+                            Records
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+
+                    <table>
+
+
+                        <thead>
+
+
+                            <tr>
+
+                                <th>
+                                    EMPLOYEE
+                                </th>
+
+
+                                <th>
+                                    EMPLOYEE NO.
+                                </th>
+
+
+                                <th>
+                                    DEPARTMENT
+                                </th>
+
+
+                                <th>
+                                    POSITION
+                                </th>
+
+
+                                <th>
+                                    CHECK IN
+                                </th>
+
+
+                                <th>
+                                    CHECK OUT
+                                </th>
+
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                            </tr>
+
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        {% if attendance_records %}
+
+
+                            {% for record in attendance_records %}
+
+
+                            <tr>
+
+
+                                <!-- EMPLOYEE -->
+
+                                <td>
+
+                                    <div
+                                        class="employee-info">
+
+
+                                        <div
+                                            class="employee-avatar">
+
+                                            {{ record.first_name[0]|upper }}
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+
+                                                {{ record.first_name }}
+
+                                                {{ record.last_name }}
+
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- EMPLOYEE NUMBER -->
+
+                                <td>
+
+                                    <span
+                                        class="employee-number">
+
+                                        {{ record.employee_number }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- DEPARTMENT -->
+
+                                <td>
+
+                                    {{
+                                        record.department_name
+                                        or "Unassigned"
+                                    }}
+
+                                </td>
+
+
+                                <!-- POSITION -->
+
+                                <td>
+
+                                    {{
+                                        record.position
+                                        or "Not specified"
+                                    }}
+
+                                </td>
+
+
+                                <!-- CHECK IN -->
+
+                                <td>
+
+                                    {{
+                                        record.check_in
+                                        or "--"
+                                    }}
+
+                                </td>
+
+
+                                <!-- CHECK OUT -->
+
+                                <td>
+
+                                    {{
+                                        record.check_out
+                                        or "--"
+                                    }}
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+
+                                    {% if record.status == "Present" %}
+
+
+                                        <span
+                                            class="status-badge present">
+
+                                            <span></span>
+
+                                            Present
+
+                                        </span>
+
+
+                                    {% elif record.status == "Late" %}
+
+
+                                        <span
+                                            class="status-badge late">
+
+                                            <span></span>
+
+                                            Late
+
+                                        </span>
+
+
+                                    {% elif record.status == "Absent" %}
+
+
+                                        <span
+                                            class="status-badge other">
+
+                                            <span></span>
+
+                                            Absent
+
+                                        </span>
+
+
+                                    {% else %}
+
+
+                                        <span
+                                            class="status-badge other">
+
+                                            {{
+                                                record.status
+                                                or "Unknown"
+                                            }}
+
+                                        </span>
+
+
+                                    {% endif %}
+
+
+                                </td>
+
+
+                            </tr>
+
+
+                            {% endfor %}
+
+
+                        {% else %}
+
+
+                            <tr>
+
+                                <td colspan="7">
+
+
+                                    <div
+                                        class="empty-table">
+
+
+                                        <i
+                                            class="bi bi-calendar-x">
+                                        </i>
+
+
+                                        <p>
+                                            No attendance records for today.
+                                        </p>
+
+
+                                    </div>
+
+
+                                </td>
+
+                            </tr>
+
+
+                        {% endif %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     BOOTSTRAP
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =====================================================
+     DASHBOARD JS
+====================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/dashboard.js') }}">
+</script>
+
+
+<!-- =====================================================
+     ATTENDANCE JS
+====================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/attendance.js') }}">
+</script>
+
+
+</body>
+
+</html>

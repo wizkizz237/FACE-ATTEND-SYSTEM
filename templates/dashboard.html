@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FaceAttend | Dashboard</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="logo-box">
+                <i class="bi bi-person-bounding-box"></i>
+            </div>
+
+            <div class="brand-info">
+                <h2>Face<span>Attend</span></h2>
+                <small>EMPLOYEE ATTENDANCE</small>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-title">MAIN</div>
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link active">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">MANAGEMENT</div>
+
+            <a
+                href="{{ url_for('employees') }}"
+                class="nav-link">
+
+                <i class="bi bi-people"></i>
+
+                <span>
+                    Employees
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('departments') }}"
+                class="nav-link">
+
+                <i class="bi bi-building"></i>
+
+                <span>
+                    Departments
+                </span>
+
+            </a>
+
+
+            <a
+                href="/face-enrollment"
+                class="nav-link">
+
+                <i class="bi bi-person-badge"></i>
+
+                <span>
+                    Face Enrollment
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">ATTENDANCE</div>
+
+            <a
+                href="{{ url_for('face_recognition') }}"
+                class="nav-link">
+
+                <i class="bi bi-camera"></i>
+
+                <span>
+                    Face Recognition
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('attendance') }}"
+                class="nav-link">
+
+                <i class="bi bi-calendar-check"></i>
+
+                <span>
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">REPORTS</div>
+
+            <a
+                href="{{ url_for('reports') }}"
+                class="nav-link">
+
+                <i class="bi bi-file-earmark-bar-graph"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">SYSTEM</div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}">
+
+                <i class="bi bi-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+<a
+    href="{{ url_for('audit_logs') }}"
+    class="nav-link"
+>
+    <i class="bi bi-shield-check"></i>
+    <span>Audit Logs</span>
+</a>
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-indicator"></span>
+
+                <span>
+                    System Online
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-link">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    type="button">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <div>
+
+                    <div class="page-label">
+                        OVERVIEW
+                    </div>
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <!-- =================================================
+                     NOTIFICATIONS
+                ================================================== -->
+
+                <div class="notification-wrapper">
+
+                    <button
+                        class="icon-button notification-button"
+                        id="notificationButton"
+                        type="button"
+                        aria-label="Notifications">
+
+                        <i class="bi bi-bell"></i>
+
+                        <span
+                            class="notification-count"
+                            id="notificationCount">
+
+                            0
+
+                        </span>
+
+                    </button>
+
+
+                    <div
+                        class="notification-dropdown"
+                        id="notificationDropdown">
+
+
+                        <div class="notification-header">
+
+                            <div>
+
+                                <span>
+                                    NOTIFICATIONS
+                                </span>
+
+                                <h3>
+                                    Activity Center
+                                </h3>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="mark-all-btn"
+                                id="markAllNotifications">
+
+                                Mark all read
+
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="notification-list"
+                            id="notificationList">
+
+                            <div class="notification-loading">
+
+                                <i class="bi bi-arrow-repeat"></i>
+
+                                <span>
+                                    Loading notifications...
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notification-footer">
+
+                            <span>
+                                FaceAttend
+                            </span>
+
+                            <span>
+                                System notifications
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ADMIN PROFILE
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('admin_profile') }}"
+                    class="admin-profile"
+                    aria-label="Open administrator profile">
+
+
+                    <div class="admin-avatar">
+
+                        {{ admin_name[0]|upper }}
+
+                    </div>
+
+
+                    <div class="admin-details">
+
+                        <strong>
+                            {{ admin_name }}
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <div class="page-content">
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <section class="welcome-area">
+
+                <div>
+
+                    <div class="welcome-label">
+                        FACEATTEND CONTROL CENTER
+                    </div>
+
+
+                    <h2>
+
+                        Welcome back,
+
+                        <span>
+                            {{ admin_name }}
+                        </span>
+
+                    </h2>
+
+
+                    <p>
+
+                        Monitor employee attendance and manage
+                        your workforce from one centralized dashboard.
+
+                    </p>
+
+
+                    <!-- ATTENDANCE START -->
+
+                    <div class="attendance-start-area">
+
+                        {% if attendance_session and attendance_session.status == 'Active' %}
+
+                            <a
+                                href="{{ url_for('attendance') }}"
+                                class="start-attendance-btn active">
+
+                                <i class="bi bi-broadcast"></i>
+
+                                Attendance Active
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        {% else %}
+
+                            <form
+                                method="POST"
+                                action="{{ url_for('start_attendance') }}">
+
+                                <button
+                                    type="submit"
+                                    class="start-attendance-btn">
+
+                                    <i class="bi bi-camera-fill"></i>
+
+                                    <span>
+                                        Start Today's Attendance
+                                    </span>
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </button>
+
+                            </form>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-operational">
+
+                    <span class="pulse-dot"></span>
+
+                    System Operational
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ERROR
+            ================================================== -->
+
+            {% if error %}
+
+            <div class="dashboard-error">
+
+                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                <span>
+                    {{ error }}
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <section class="stats-container">
+
+
+                <!-- TOTAL EMPLOYEES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon blue">
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+
+                        <span>
+                            WORKFORCE
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-number">
+
+                        {{ total_employees }}
+
+                    </div>
+
+
+                    <p>
+                        Total Employees
+                    </p>
+
+                </div>
+
+
+
+                <!-- TOTAL DEPARTMENTS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon purple">
+
+                            <i class="bi bi-building-fill"></i>
+
+                        </div>
+
+                        <span>
+                            ORGANIZATION
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-number">
+
+                        {{ total_departments }}
+
+                    </div>
+
+
+                    <p>
+                        Total Departments
+                    </p>
+
+                </div>
+
+
+
+                <!-- PRESENT TODAY -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon cyan">
+
+                            <i class="bi bi-person-check-fill"></i>
+
+                        </div>
+
+                        <span>
+                            TODAY
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-number">
+
+                        {{ present_today }}
+
+                    </div>
+
+
+                    <p>
+                        Present Today
+                    </p>
+
+                </div>
+
+
+
+                <!-- LATE TODAY -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon orange">
+
+                            <i class="bi bi-clock-fill"></i>
+
+                        </div>
+
+                        <span>
+                            TODAY
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-number">
+
+                        {{ late_today }}
+
+                    </div>
+
+
+                    <p>
+                        Late Today
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 LOWER CONTENT
+            ================================================== -->
+
+            <section class="dashboard-grid">
+
+
+                <!-- =================================================
+                     RECENT ATTENDANCE
+                ================================================== -->
+
+                <div class="dashboard-panel attendance-panel">
+
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                ATTENDANCE ACTIVITY
+                            </span>
+
+                            <h3>
+                                Recent Attendance
+                            </h3>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('attendance') }}"
+                            class="view-all-btn">
+
+                            View All
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        EMPLOYEE
+                                    </th>
+
+                                    <th>
+                                        DEPARTMENT
+                                    </th>
+
+                                    <th>
+                                        DATE
+                                    </th>
+
+                                    <th>
+                                        CHECK IN
+                                    </th>
+
+                                    <th>
+                                        CHECK OUT
+                                    </th>
+
+                                    <th>
+                                        STATUS
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+
+                            <tbody>
+
+
+                            {% if recent_attendance %}
+
+
+                                {% for record in recent_attendance %}
+
+
+                                <tr>
+
+
+                                    <!-- EMPLOYEE -->
+
+                                    <td>
+
+                                        <div class="employee-info">
+
+
+                                            <div class="employee-avatar">
+
+                                                {{ record.first_name[0]|upper }}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+
+                                                    {{ record.first_name }}
+                                                    {{ record.last_name }}
+
+                                                </strong>
+
+
+                                                <small>
+
+                                                    {{ record.employee_number }}
+
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+
+                                    <!-- DEPARTMENT -->
+
+                                    <td>
+
+                                        {{ record.department_name or 'Unassigned' }}
+
+                                    </td>
+
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        {{ record.attendance_date }}
+
+                                    </td>
+
+
+
+                                    <!-- CHECK IN -->
+
+                                    <td>
+
+                                        {{ record.check_in or '--' }}
+
+                                    </td>
+
+
+
+                                    <!-- CHECK OUT -->
+
+                                    <td>
+
+                                        {{ record.check_out or '--' }}
+
+                                    </td>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+
+                                        {% if record.status == 'Present' %}
+
+
+                                            <span class="status-badge present">
+
+                                                <span></span>
+
+                                                Present
+
+                                            </span>
+
+
+                                        {% elif record.status == 'Late' %}
+
+
+                                            <span class="status-badge late">
+
+                                                <span></span>
+
+                                                Late
+
+                                            </span>
+
+
+                                        {% else %}
+
+
+                                            <span class="status-badge other">
+
+                                                {{ record.status or 'Unknown' }}
+
+                                            </span>
+
+
+                                        {% endif %}
+
+
+                                    </td>
+
+
+                                </tr>
+
+
+                                {% endfor %}
+
+
+                            {% else %}
+
+
+                                <tr>
+
+                                    <td colspan="6">
+
+                                        <div class="empty-table">
+
+                                            <i class="bi bi-calendar-x"></i>
+
+                                            <p>
+
+                                                No attendance records available.
+
+                                            </p>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                            {% endif %}
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SYSTEM OVERVIEW
+                ================================================== -->
+
+                <div class="dashboard-panel overview-panel">
+
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                SYSTEM
+                            </span>
+
+                            <h3>
+                                Overview
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="overview-list">
+
+
+                        <!-- EMPLOYEE MANAGEMENT -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-icon">
+
+                                <i class="bi bi-person-badge"></i>
+
+                            </div>
+
+
+                            <div class="overview-text">
+
+                                <strong>
+                                    Employee Management
+                                </strong>
+
+                                <small>
+                                    Manage employee records
+                                </small>
+
+                            </div>
+
+
+                            <i class="bi bi-check-circle-fill completed"></i>
+
+                        </div>
+
+
+
+                        <!-- DEPARTMENTS -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-icon">
+
+                                <i class="bi bi-diagram-3"></i>
+
+                            </div>
+
+
+                            <div class="overview-text">
+
+                                <strong>
+                                    Departments
+                                </strong>
+
+                                <small>
+                                    Organization structure
+                                </small>
+
+                            </div>
+
+
+                            <i class="bi bi-check-circle-fill completed"></i>
+
+                        </div>
+
+
+
+                        <!-- FACE RECOGNITION -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-icon">
+
+                                <i class="bi bi-camera"></i>
+
+                            </div>
+
+
+                            <div class="overview-text">
+
+                                <strong>
+                                    Face Recognition
+                                </strong>
+
+                                <small>
+                                    Attendance recognition
+                                </small>
+
+                            </div>
+
+
+                            <span class="next-badge">
+                                NEXT
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- REPORTING -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-icon">
+
+                                <i class="bi bi-bar-chart-line"></i>
+
+                            </div>
+
+
+                            <div class="overview-text">
+
+                                <strong>
+                                    Reporting
+                                </strong>
+
+                                <small>
+                                    Attendance analytics
+                                </small>
+
+                            </div>
+
+
+                            <span class="next-badge">
+                                NEXT
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- SECURITY -->
+
+                    <div class="security-card">
+
+                        <div class="security-icon">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                System Security
+                            </strong>
+
+                            <small>
+                                Protected administrator session
+                            </small>
+
+                        </div>
+
+
+                        <span class="security-status"></span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="dashboard-footer">
+
+                <span>
+                    FaceAttend
+                </span>
+
+                <span>
+                    /
+                </span>
+
+                <span>
+                    Employee Attendance System
+                </span>
+
+                <span class="footer-space"></span>
+
+                <span>
+                    © 2026 FaceAttend
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP
+========================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- =========================================================
+     DASHBOARD JAVASCRIPT
+========================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/dashboard.js') }}">
+</script>
+
+
+</body>
+</html>

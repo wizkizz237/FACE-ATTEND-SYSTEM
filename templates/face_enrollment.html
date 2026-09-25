@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FaceAttend | Face Enrollment</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/face_enrollment.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="logo-box">
+                <i class="bi bi-person-bounding-box"></i>
+            </div>
+
+            <div class="brand-info">
+
+                <h2>
+                    Face<span>Attend</span>
+                </h2>
+
+                <small>
+                    EMPLOYEE ATTENDANCE
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="{{ url_for('employees') }}"
+                class="nav-link">
+
+                <i class="bi bi-people"></i>
+
+                <span>
+                    Employees
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('departments') }}"
+                class="nav-link active">
+
+                <i class="bi bi-building"></i>
+
+                <span>
+                    Departments
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('face_enrollment_list') }}"
+                class="nav-link active">
+
+                <i class="bi bi-person-badge"></i>
+
+                <span>
+                    Face Enrollment
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">
+                ATTENDANCE
+            </div>
+
+
+            <a
+                href="{{ url_for('face_recognition') }}"
+                class="nav-link active">
+
+                <i class="bi bi-camera"></i>
+
+                <span>
+                    Face Recognition
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('attendance') }}"
+                class="nav-link">
+
+                <i class="bi bi-calendar-check"></i>
+
+                <span>
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">
+                REPORTS
+            </div>
+
+
+             <a
+    href="{{ url_for('reports') }}"
+    class="nav-link"
+>
+    <i class="bi bi-file-earmark-bar-graph"></i>
+    <span>Reports</span>
+</a>
+
+
+            <div class="nav-title">
+                SYSTEM
+            </div>
+
+
+           <a
+    href="{{ url_for('settings') }}"
+    class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}"
+>
+    <i class="bi bi-gear"></i>
+    <span>Settings</span>
+</a>
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-indicator"></span>
+
+                <span>
+                    System Online
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-link">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <div>
+
+                    <div class="page-label">
+                        BIOMETRIC MANAGEMENT
+                    </div>
+
+                    <h1>
+                        Face Enrollment
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button
+                    type="button"
+                    class="icon-button">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <div class="admin-profile">
+
+                    <div class="admin-avatar">
+                        {{ admin_name[0]|upper }}
+                    </div>
+
+                    <div class="admin-details">
+
+                        <strong>
+                            {{ admin_name }}
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="enrollment-page">
+
+
+            <!-- HEADER -->
+
+            <div class="enrollment-header">
+
+                <div>
+
+                    <div class="enrollment-kicker">
+                        EMPLOYEE BIOMETRIC PROFILE
+                    </div>
+
+                    <h2>
+                        Enroll Face
+                    </h2>
+
+                    <p>
+                        Capture facial images for employee recognition.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('face_enrollment_list') }}"
+                    class="back-button">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Back to Face Enrollment
+
+                </a>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+                <div class="enrollment-alert">
+
+                    <i class="bi bi-exclamation-triangle"></i>
+
+                    <span>
+                        {{ error }}
+                    </span>
+
+                </div>
+
+            {% endif %}
+
+
+            {% if employee %}
+
+
+            <!-- =================================================
+                 EMPLOYEE INFORMATION
+            ================================================== -->
+
+            <div class="employee-card">
+
+                <div class="employee-card-avatar">
+
+                    {{ employee.first_name[0]|upper }}
+
+                </div>
+
+
+                <div class="employee-card-info">
+
+                    <span>
+                        EMPLOYEE
+                    </span>
+
+                    <h3>
+                        {{ employee.first_name }}
+                        {{ employee.last_name }}
+                    </h3>
+
+                    <p>
+
+                        {{ employee.employee_number }}
+
+                        {% if employee.department_name %}
+
+                            <span>
+                                ·
+                            </span>
+
+                            {{ employee.department_name }}
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <div class="employee-card-meta">
+
+                    <div>
+
+                        <span>
+                            POSITION
+                        </span>
+
+                        <strong>
+                            {{ employee.position or 'Employee' }}
+                        </strong>
+
+                    </div>
+
+
+                    {% if employee.email %}
+
+                    <div>
+
+                        <span>
+                            EMAIL
+                        </span>
+
+                        <strong>
+                            {{ employee.email }}
+                        </strong>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    {% if employee.phone %}
+
+                    <div>
+
+                        <span>
+                            PHONE
+                        </span>
+
+                        <strong>
+                            {{ employee.phone }}
+                        </strong>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="enrollment-counter">
+
+                    <span>
+                        IMAGES CAPTURED
+                    </span>
+
+                    <strong id="imageCount">
+                        {{ image_count }}/10
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ENROLLMENT AREA
+            ================================================== -->
+
+            <div class="enrollment-grid">
+
+
+                <!-- CAMERA -->
+
+                <div class="enrollment-panel camera-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                BIOMETRIC CAPTURE
+                            </span>
+
+                            <h3>
+                                Face Capture
+                            </h3>
+
+                        </div>
+
+
+                        <div class="capture-status">
+
+                            <span
+                                class="status-dot"
+                                id="enrollmentStatusDot">
+                            </span>
+
+                            <span id="enrollmentCameraStatus">
+                                Camera Offline
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="enrollment-camera">
+
+
+                        <video
+                            id="enrollmentCamera"
+                            autoplay
+                            playsinline
+                            muted>
+                        </video>
+
+
+                        <!-- CAMERA PLACEHOLDER -->
+
+                        <div
+                            class="camera-placeholder"
+                            id="cameraPlaceholder">
+
+                            <div class="camera-large-icon">
+
+                                <i class="bi bi-camera-video"></i>
+
+                            </div>
+
+
+                            <h3>
+                                Camera Ready
+                            </h3>
+
+
+                            <p>
+                                Position the employee's face inside
+                                the frame and begin capturing images.
+                            </p>
+
+
+                            <button
+                                type="button"
+                                id="startEnrollmentCamera"
+                                class="capture-button">
+
+                                <i class="bi bi-camera-video-fill"></i>
+
+                                Start Camera
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- FACE GUIDE -->
+
+                        <div
+                            class="face-guide"
+                            id="faceGuide">
+
+                            <div class="guide-corner top-left"></div>
+
+                            <div class="guide-corner top-right"></div>
+
+                            <div class="guide-corner bottom-left"></div>
+
+                            <div class="guide-corner bottom-right"></div>
+
+                            <div class="guide-line"></div>
+
+                        </div>
+
+
+                        <!-- CAMERA LABEL -->
+
+                        <div class="camera-label">
+
+                            <span></span>
+
+                            <span id="enrollmentCameraStatusBottom">
+                                Camera Offline
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CAPTURE CONTROL -->
+
+                    <div class="capture-controls">
+
+                        <div class="capture-instruction">
+
+                            <i class="bi bi-info-circle"></i>
+
+                            <span>
+                                Keep the face centered and clearly visible.
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="captureFaceBtn"
+                            class="capture-button"
+                            disabled>
+
+                            <i class="bi bi-camera-fill"></i>
+
+                            Capture Face
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PROGRESS
+                ================================================== -->
+
+                <div class="enrollment-panel progress-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                ENROLLMENT PROGRESS
+                            </span>
+
+                            <h3>
+                                Recognition Profile
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-content">
+
+
+                        <div class="progress-circle">
+
+                            <div>
+
+                                <strong id="progressNumber">
+                                    {{ image_count }}
+                                </strong>
+
+                                <small>
+                                    / 10
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <h4>
+                            Face Images
+                        </h4>
+
+
+                        <p>
+                            Capture 10 clear images from slightly
+                            different angles for better recognition.
+                        </p>
+
+
+                        <div class="capture-progress">
+
+                            <div
+                                class="capture-progress-bar"
+                                id="captureProgressBar"
+                                style="width: {{ (image_count / 10 * 100) if image_count else 0 }}%;">
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-summary">
+
+                            <div>
+
+                                <span>
+                                    Captured
+                                </span>
+
+                                <strong id="progressCaptured">
+                                    {{ image_count }}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Remaining
+                                </span>
+
+                                <strong id="progressRemaining">
+                                    {{ 10 - image_count }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="capture-tips">
+
+
+                            <div>
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Face clearly visible
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Good lighting
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Look directly at camera
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Avoid sunglasses or masks
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CAPTURED IMAGES
+            ================================================== -->
+
+            <div class="captured-images-panel">
+
+                <div class="captured-images-header">
+
+                    <div>
+
+                        <span class="captured-kicker">
+                            ENROLLED FACE DATA
+                        </span>
+
+                        <h3>
+                            Captured Images
+                        </h3>
+
+                        <p>
+                            Review the facial images saved for this employee.
+                        </p>
+
+                    </div>
+
+
+                    <div class="captured-count">
+
+                        <i class="bi bi-images"></i>
+
+                        <span id="capturedImagesCount">
+                            {{ image_count }}/10
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="captured-images-grid"
+                    id="capturedImagesGrid">
+
+
+                    {% if face_images %}
+
+                        {% for image in face_images %}
+
+                        <div
+                            class="captured-image-card"
+                            data-image-id="{{ image.id }}">
+
+
+                            <div class="captured-image-preview">
+
+                                <img
+                                    src="{{ url_for(
+                                        'face_dataset_file',
+                                        filename=image.image_path
+                                    ) }}"
+                                    alt="Face image {{ image.image_number }}">
+
+
+                                <div class="image-number">
+
+                                    {{ "%02d"|format(image.image_number) }}
+
+                                </div>
+
+
+                                <div class="image-overlay">
+
+                                    <span>
+                                        Image {{ image.image_number }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="captured-image-footer">
+
+
+                                <div class="captured-image-info">
+
+                                    <span>
+                                        Image {{ image.image_number }}
+                                    </span>
+
+                                    <small>
+                                        {{ image.captured_at }}
+                                    </small>
+
+                                </div>
+
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'delete_face_image',
+                                        image_id=image.id
+                                    ) }}"
+                                    onsubmit="return confirm(
+                                        'Delete this captured face image?'
+                                    );">
+
+
+                                    <button
+                                        type="submit"
+                                        class="delete-face-btn"
+                                        title="Delete image"
+                                        aria-label="Delete image">
+
+                                        <i class="bi bi-trash3"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <div class="no-captured-images">
+
+                            <div class="no-images-icon">
+
+                                <i class="bi bi-images"></i>
+
+                            </div>
+
+
+                            <h4>
+                                No Face Images Captured
+                            </h4>
+
+
+                            <p>
+                                Captured employee face images will appear here.
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- =================================================
+                 EMPLOYEE NOT FOUND
+            ================================================== -->
+
+            <div class="employee-not-found">
+
+                <div class="not-found-icon">
+
+                    <i class="bi bi-person-x"></i>
+
+                </div>
+
+
+                <h3>
+                    Employee Not Found
+                </h3>
+
+
+                <p>
+                    The employee associated with this enrollment
+                    profile could not be found.
+                </p>
+
+
+                <a
+                    href="{{ url_for('face_enrollment_list') }}"
+                    class="back-button">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Back to Face Enrollment
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     SCRIPTS
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script
+    src="{{ url_for('static', filename='js/dashboard.js') }}">
+</script>
+
+
+<script
+    src="{{ url_for('static', filename='js/face_enrollment.js') }}">
+</script>
+
+</body>
+
+</html>

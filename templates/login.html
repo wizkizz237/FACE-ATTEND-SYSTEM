@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FaceAttend | Employee Attendance System</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Login CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/login.css') }}">
+
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <!-- Background effects -->
+    <div class="background-grid"></div>
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <div class="login-container">
+
+        <!-- ================================================= -->
+        <!-- LEFT SIDE -->
+        <!-- ================================================= -->
+
+        <section class="hero-section">
+
+            <!-- Brand -->
+            <div class="hero-brand">
+
+                <div class="brand-icon">
+                    <i class="bi bi-person-bounding-box"></i>
+                </div>
+
+                <div class="brand-text">
+
+                    <div class="brand-name">
+                        Face<span>Attend</span>
+                    </div>
+
+                    <div class="brand-subtitle">
+                        FACE RECOGNITION ATTENDANCE SYSTEM
+                        <br>
+                        FOR EMPLOYEES
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- FACE SCANNER - TOP -->
+            <!-- ================================================= -->
+
+            <div class="face-scanner-top">
+
+                <div class="scanner-frame">
+
+                    <div class="corner corner-tl"></div>
+                    <div class="corner corner-tr"></div>
+                    <div class="corner corner-bl"></div>
+                    <div class="corner corner-br"></div>
+
+                    <div class="face-wireframe">
+
+                        <div class="face-head">
+
+                            <div class="face-eye eye-left"></div>
+                            <div class="face-eye eye-right"></div>
+
+                            <div class="face-nose"></div>
+
+                            <div class="face-mouth"></div>
+
+                            <div class="face-lines line-one"></div>
+                            <div class="face-lines line-two"></div>
+                            <div class="face-lines line-three"></div>
+
+                        </div>
+
+                        <div class="scan-line"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Scanning status -->
+
+                <div class="scanning-status">
+
+                    <div class="fingerprint-icon">
+                        <i class="bi bi-fingerprint"></i>
+                    </div>
+
+                    <div class="scanning-content">
+
+                        <div class="scanning-title">
+                            Face Scanning...
+                        </div>
+
+                        <div class="scan-progress">
+
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="inactive"></span>
+                            <span class="inactive"></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Hero content -->
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    INTELLIGENT ATTENDANCE
+                </div>
+
+                <h1>
+                    Smarter Attendance
+                    <br>
+                    <span>with Face Recognition</span>
+                </h1>
+
+                <p class="hero-description">
+                    Secure, accurate and efficient employee attendance
+                    management powered by advanced facial recognition
+                    technology.
+                </p>
+
+
+                <!-- Features -->
+
+                <div class="features-grid">
+
+                    <!-- Feature 1 -->
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+
+                        <div>
+                            <h4>Secure Access</h4>
+                            <p>
+                                Protect your workforce and attendance data.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Feature 2 -->
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+
+                        <div>
+                            <h4>Face Recognition</h4>
+                            <p>
+                                Fast and accurate employee identification.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Feature 3 -->
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+
+                        <div>
+                            <h4>Real-time Tracking</h4>
+                            <p>
+                                Monitor attendance and records in real-time.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Feature 4 -->
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
+
+                        <div>
+                            <h4>Better Productivity</h4>
+                            <p>
+                                Streamline attendance and workplace processes.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Footer -->
+
+            <div class="hero-footer">
+
+                <strong>
+                    Face<span>Attend</span>
+                </strong>
+
+                <div class="footer-divider"></div>
+
+                <span>Technology</span>
+
+                <b>•</b>
+
+                <span>Security</span>
+
+                <b>•</b>
+
+                <span>A Smarter Workplace</span>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- RIGHT SIDE -->
+        <!-- ================================================= -->
+
+        <section class="login-section">
+
+            <!-- Secure login -->
+
+            <div class="secure-login">
+
+                <i class="bi bi-shield-lock"></i>
+
+                <span>
+                    SECURE LOGIN
+                </span>
+
+            </div>
+
+
+            <!-- Login card -->
+
+            <div class="login-card">
+
+                <!-- Logo -->
+
+                <div class="login-brand">
+
+                    <div class="login-brand-icon">
+                        <i class="bi bi-person-bounding-box"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="login-brand-name">
+                            Face<span>Attend</span>
+                        </div>
+
+                        <div class="login-brand-subtitle">
+                            FACE RECOGNITION ATTENDANCE SYSTEM
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Heading -->
+
+                <div class="login-heading">
+
+                    <h2>
+                        Welcome Back
+                    </h2>
+
+                    <p>
+                        Sign in to your administrator account
+                    </p>
+
+                </div>
+
+
+                <!-- Error -->
+
+                {% if error %}
+
+                <div class="login-error">
+
+                    <i class="bi bi-exclamation-circle-fill"></i>
+
+                    <span>
+                        {{ error }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- Login form -->
+
+                <form
+                    method="POST"
+                    action="{{ url_for('login') }}"
+                    id="loginForm"
+                    novalidate>
+
+
+                    <!-- Username -->
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-person"></i>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value="{{ request.form.get('username', '') }}"
+                                placeholder="Enter username"
+                                autocomplete="username"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-lock"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter password"
+                                autocomplete="current-password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Show password">
+
+                                <i class="bi bi-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Options -->
+
+                    <div class="login-options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                name="remember">
+
+                            <span class="custom-checkbox"></span>
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                        <a
+                            href="#"
+                            id="forgotPassword">
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+
+                    <!-- Sign in -->
+
+                    <button
+                        type="submit"
+                        class="sign-in-button"
+                        id="signInButton">
+
+                        <span class="button-content">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            <span>
+                                Sign In
+                            </span>
+
+                        </span>
+
+                        <span
+                            class="button-loading"
+                            style="display:none;">
+
+                            <span class="spinner-border spinner-border-sm"></span>
+
+                            Signing in...
+
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- Security notice -->
+
+                <div class="security-notice">
+
+                    <i class="bi bi-lock-fill"></i>
+
+                    <span>
+                        Your data is protected and secure
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Copyright -->
+
+            <div class="login-copyright">
+                © 2026 FaceAttend. All rights reserved.
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- Login JS -->
+
+<script
+    src="{{ url_for('static', filename='js/login.js') }}">
+</script>
+
+</body>
+</html>

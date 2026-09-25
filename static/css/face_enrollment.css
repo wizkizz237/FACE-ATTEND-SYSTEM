@@ -1,0 +1,1082 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+
+/* =========================================================
+   FACE ENROLLMENT PAGE
+========================================================= */
+
+.enrollment-page {
+    padding: 34px 38px 28px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.enrollment-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 22px;
+}
+
+.enrollment-kicker {
+    margin-bottom: 8px;
+
+    color: #078de6;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.enrollment-header h2 {
+    margin: 0;
+
+    color: #edf6ff;
+
+    font-size: 29px;
+    font-weight: 800;
+
+    letter-spacing: -1.3px;
+}
+
+.enrollment-header p {
+    margin-top: 8px;
+
+    color: #71879c;
+
+    font-size: 11px;
+}
+
+.back-button {
+    min-height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 15px;
+
+    border: 1px solid rgba(70, 138, 187, 0.16);
+
+    border-radius: 10px;
+
+    background: rgba(7, 25, 41, 0.75);
+
+    color: #7890a5;
+
+    text-decoration: none;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+.back-button:hover {
+    color: #14aaff;
+
+    border-color: rgba(0, 151, 255, 0.28);
+
+    background: rgba(0, 130, 235, 0.05);
+}
+
+
+/* =========================================================
+   EMPLOYEE CARD
+========================================================= */
+
+.employee-card {
+    min-height: 88px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 16px 20px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid rgba(59, 145, 207, 0.14);
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(8, 28, 46, 0.96),
+            rgba(4, 17, 29, 0.97)
+        );
+}
+
+.employee-card-avatar {
+    width: 51px;
+    height: 51px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #118df2,
+            #0750a3
+        );
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 20px rgba(0, 119, 255, 0.17);
+}
+
+.employee-card-info {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.employee-card-info > span {
+    color: #4f6b84;
+
+    font-size: 7px;
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+.employee-card-info h3 {
+    margin: 0;
+
+    color: #dce9f5;
+
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.employee-card-info p {
+    margin: 0;
+
+    color: #61788e;
+
+    font-size: 8px;
+}
+
+.enrollment-counter {
+    min-width: 125px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 5px;
+
+    padding-left: 20px;
+
+    border-left: 1px solid rgba(72, 133, 176, 0.10);
+}
+
+.enrollment-counter span {
+    color: #4f6981;
+
+    font-size: 7px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.enrollment-counter strong {
+    color: #12aaff;
+
+    font-size: 20px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.enrollment-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.65fr)
+        minmax(290px, 0.75fr);
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.enrollment-panel {
+    overflow: hidden;
+
+    border: 1px solid rgba(59, 145, 207, 0.14);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(8, 26, 43, 0.96),
+            rgba(4, 16, 28, 0.98)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.panel-header {
+    min-height: 77px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 21px;
+
+    border-bottom: 1px solid rgba(72, 133, 176, 0.08);
+}
+
+.panel-header span {
+    display: block;
+
+    color: #078de3;
+
+    font-size: 7px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.panel-header h3 {
+    margin-top: 7px;
+
+    color: #e8f2fa;
+
+    font-size: 16px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+.enrollment-camera {
+    height: 450px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 137, 255, 0.09),
+            transparent 37%
+        ),
+        #020c17;
+}
+
+.enrollment-camera video {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    object-fit: cover;
+
+    transform: scaleX(-1);
+
+    background: #01070d;
+}
+
+
+/* =========================================================
+   CAMERA PLACEHOLDER
+========================================================= */
+
+.camera-placeholder {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 35px;
+}
+
+.camera-large-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 19px;
+
+    color: #14aaff;
+
+    background: rgba(0, 151, 255, 0.07);
+
+    border: 1px solid rgba(0, 151, 255, 0.15);
+
+    font-size: 29px;
+
+    box-shadow:
+        0 0 35px rgba(0, 151, 255, 0.07);
+}
+
+.camera-placeholder h3 {
+    margin-top: 17px;
+
+    color: #dceaf6;
+
+    font-size: 18px;
+
+    font-weight: 750;
+}
+
+.camera-placeholder p {
+    max-width: 450px;
+
+    margin-top: 8px;
+
+    color: #61788e;
+
+    font-size: 10px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CAPTURE BUTTON
+========================================================= */
+
+.capture-button {
+    min-height: 45px;
+
+    margin-top: 19px;
+
+    padding: 0 17px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border: 1px solid rgba(0, 157, 255, 0.27);
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1598ff,
+            #0877e8
+        );
+
+    color: #ffffff;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 9px 22px rgba(0, 119, 255, 0.20);
+
+    transition: 0.2s ease;
+}
+
+.capture-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 13px 28px rgba(0, 119, 255, 0.28);
+}
+
+.capture-button:disabled {
+    opacity: 0.40;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+.capture-button i {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FACE GUIDE
+========================================================= */
+
+.face-guide {
+    position: absolute;
+
+    width: 245px;
+    height: 315px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+.guide-corner {
+    position: absolute;
+
+    width: 34px;
+    height: 34px;
+
+    border-style: solid;
+
+    border-color: #10c5ff;
+
+    filter:
+        drop-shadow(
+            0 0 7px rgba(16, 197, 255, 0.75)
+        );
+}
+
+.guide-corner.top-left {
+    top: 0;
+    left: 0;
+
+    border-width: 2px 0 0 2px;
+}
+
+.guide-corner.top-right {
+    top: 0;
+    right: 0;
+
+    border-width: 2px 2px 0 0;
+}
+
+.guide-corner.bottom-left {
+    bottom: 0;
+    left: 0;
+
+    border-width: 0 0 2px 2px;
+}
+
+.guide-corner.bottom-right {
+    bottom: 0;
+    right: 0;
+
+    border-width: 0 2px 2px 0;
+}
+
+.guide-line {
+    position: absolute;
+
+    left: 14px;
+    right: 14px;
+
+    top: 18px;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #00cfff,
+            #ffffff,
+            #00cfff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 10px #00bfff;
+
+    animation:
+        enrollmentScan 2.8s ease-in-out infinite;
+}
+
+@keyframes enrollmentScan {
+
+    0% {
+        top: 18px;
+        opacity: 0.25;
+    }
+
+    50% {
+        top: 290px;
+        opacity: 1;
+    }
+
+    100% {
+        top: 18px;
+        opacity: 0.25;
+    }
+}
+
+
+/* =========================================================
+   CAMERA LABEL
+========================================================= */
+
+.camera-label {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    background: rgba(2, 12, 22, 0.78);
+
+    border: 1px solid rgba(0, 144, 255, 0.13);
+
+    backdrop-filter: blur(10px);
+
+    color: #657c91;
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+}
+
+.camera-label > span:first-child {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #667d91;
+}
+
+.camera-label.online {
+    color: #62cda0;
+}
+
+.camera-label.online > span:first-child {
+    background: #1ed88b;
+
+    box-shadow:
+        0 0 8px rgba(30, 216, 139, 0.65);
+}
+
+
+/* =========================================================
+   CAPTURE CONTROLS
+========================================================= */
+
+.capture-controls {
+    min-height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 20px;
+
+    border-top: 1px solid rgba(72, 133, 176, 0.08);
+}
+
+
+/* =========================================================
+   PROGRESS PANEL
+========================================================= */
+
+.progress-content {
+    padding: 31px 25px;
+
+    text-align: center;
+}
+
+.progress-circle {
+    width: 145px;
+    height: 145px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 139, 255, 0.08),
+            rgba(0, 139, 255, 0.025) 65%,
+            transparent 66%
+        );
+
+    border: 1px solid rgba(0, 150, 255, 0.17);
+
+    box-shadow:
+        0 0 45px rgba(0, 143, 255, 0.06),
+        inset 0 0 25px rgba(0, 143, 255, 0.04);
+}
+
+.progress-circle > div {
+    display: flex;
+
+    align-items: baseline;
+}
+
+.progress-circle strong {
+    color: #12aaff;
+
+    font-size: 39px;
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+}
+
+.progress-circle small {
+    margin-left: 4px;
+
+    color: #526e85;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+.progress-content h4 {
+    margin-top: 20px;
+
+    color: #d9e6f1;
+
+    font-size: 15px;
+
+    font-weight: 750;
+}
+
+.progress-content > p {
+    max-width: 280px;
+
+    margin: 8px auto 0;
+
+    color: #60788e;
+
+    font-size: 9px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.capture-progress {
+    width: 100%;
+
+    height: 5px;
+
+    margin-top: 23px;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background: rgba(54, 91, 119, 0.12);
+}
+
+.capture-progress-bar {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #087ff0,
+            #10cfff
+        );
+
+    box-shadow:
+        0 0 10px rgba(0, 158, 255, 0.3);
+
+    transition: width 0.3s ease;
+}
+
+
+/* =========================================================
+   TIPS
+========================================================= */
+
+.capture-tips {
+    margin-top: 26px;
+
+    padding-top: 19px;
+
+    border-top: 1px solid rgba(72, 133, 176, 0.08);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    text-align: left;
+}
+
+.capture-tips div {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    color: #71889d;
+
+    font-size: 8px;
+}
+
+.capture-tips i {
+    color: #1ed88b;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .enrollment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-panel {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .enrollment-page {
+        padding: 25px 20px;
+    }
+
+    .enrollment-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .enrollment-page {
+        padding: 20px 15px;
+    }
+
+    .enrollment-header h2 {
+        font-size: 24px;
+    }
+
+    .employee-card {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+    .enrollment-counter {
+        width: 100%;
+
+        align-items: flex-start;
+
+        padding-left: 0;
+        padding-top: 12px;
+
+        border-left: none;
+        border-top: 1px solid rgba(72, 133, 176, 0.10);
+    }
+
+    .enrollment-camera {
+        height: 360px;
+    }
+
+    .face-guide {
+        width: 205px;
+        height: 270px;
+    }
+}
+/* =========================================================
+   CAPTURED IMAGES
+   ========================================================= */
+
+.captured-images-panel {
+    margin-top: 24px;
+    padding: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(8, 24, 40, 0.98),
+            rgba(3, 15, 27, 0.99)
+        );
+
+    border: 1px solid rgba(53, 131, 203, 0.20);
+    border-radius: 18px;
+
+    box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.22);
+}
+
+.captured-images-panel .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.captured-images-panel .panel-header span:first-child {
+    display: block;
+
+    color: #369bff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+}
+
+.captured-images-panel .panel-header h3 {
+    margin: 6px 0 0;
+
+    color: #f0f6ff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.captured-count {
+    padding: 7px 12px;
+
+    background: rgba(36, 141, 235, 0.10);
+    border: 1px solid rgba(49, 152, 243, 0.22);
+    border-radius: 20px;
+
+    color: #46a7ff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.captured-images-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+.captured-image-card {
+    overflow: hidden;
+
+    background: rgba(5, 18, 30, 0.95);
+
+    border: 1px solid rgba(62, 119, 159, 0.20);
+    border-radius: 13px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.captured-image-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(40, 150, 245, 0.38);
+}
+
+.captured-image-preview {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+
+    background: #020b15;
+}
+
+.captured-image-preview img {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    object-fit: cover;
+}
+
+.image-number {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+
+    min-width: 27px;
+    height: 27px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background: rgba(2, 10, 20, 0.80);
+
+    border: 1px solid rgba(77, 169, 249, 0.25);
+
+    color: #5aafff;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.captured-image-footer {
+    min-height: 47px;
+    padding: 9px 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.captured-image-footer span {
+    color: #7d94ac;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.captured-image-footer form {
+    margin: 0;
+}
+
+.delete-face-btn {
+    width: 29px;
+    height: 29px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(239, 68, 68, 0.20);
+    border-radius: 7px;
+
+    background: rgba(239, 68, 68, 0.07);
+
+    color: #ef7676;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.delete-face-btn:hover {
+    background: rgba(220, 38, 38, 0.16);
+    border-color: rgba(239, 68, 68, 0.38);
+    color: #ff8b8b;
+}
+
+.no-captured-images {
+    grid-column: 1 / -1;
+
+    padding: 55px 20px;
+
+    text-align: center;
+}
+
+.no-captured-images i {
+    display: block;
+    margin-bottom: 14px;
+
+    color: #315675;
+    font-size: 38px;
+}
+
+.no-captured-images h4 {
+    margin: 0 0 6px;
+
+    color: #dbe8f5;
+    font-size: 16px;
+}
+
+.no-captured-images p {
+    margin: 0;
+
+    color: #688097;
+    font-size: 12px;
+}
+
+
+@media (max-width: 1100px) {
+
+    .captured-images-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .captured-images-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media (max-width: 550px) {
+
+    .captured-images-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Edit Employee | Face Recognition Attendance System for Employees
+    </title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Global layout -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}"
+    >
+
+    <!-- THIS PAGE ONLY -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/edit_employee.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="dashboard-wrapper">
+
+
+     <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="logo-box">
+                <i class="bi bi-person-bounding-box"></i>
+            </div>
+
+            <div class="brand-info">
+                <h2>Face<span>Attend</span></h2>
+                <small>EMPLOYEE ATTENDANCE</small>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-title">MAIN</div>
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link active">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">MANAGEMENT</div>
+
+            <a
+                href="{{ url_for('employees') }}"
+                class="nav-link">
+
+                <i class="bi bi-people"></i>
+
+                <span>
+                    Employees
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('departments') }}"
+                class="nav-link">
+
+                <i class="bi bi-building"></i>
+
+                <span>
+                    Departments
+                </span>
+
+            </a>
+
+
+            <a
+                href="/face-enrollment"
+                class="nav-link">
+
+                <i class="bi bi-person-badge"></i>
+
+                <span>
+                    Face Enrollment
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">ATTENDANCE</div>
+
+            <a
+                href="{{ url_for('face_recognition') }}"
+                class="nav-link">
+
+                <i class="bi bi-camera"></i>
+
+                <span>
+                    Face Recognition
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('attendance') }}"
+                class="nav-link">
+
+                <i class="bi bi-calendar-check"></i>
+
+                <span>
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">REPORTS</div>
+
+            <a
+                href="{{ url_for('reports') }}"
+                class="nav-link">
+
+                <i class="bi bi-file-earmark-bar-graph"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">SYSTEM</div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}">
+
+                <i class="bi bi-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+<a
+    href="{{ url_for('audit_logs') }}"
+    class="nav-link"
+>
+    <i class="bi bi-shield-check"></i>
+    <span>Audit Logs</span>
+</a>
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-indicator"></span>
+
+                <span>
+                    System Online
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-link">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <div class="edit-employee-page">
+
+
+            <!-- =================================================
+                 PAGE HEADER
+            ================================================== -->
+
+            <div class="edit-employee-header">
+
+                <div>
+
+                    <div class="edit-employee-kicker">
+                        Employee Management
+                    </div>
+
+                    <h2>
+                        Edit Employee
+                    </h2>
+
+                    <p>
+                        Update employee information and account details.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('view_employee', employee_id=employee.id) }}"
+                    class="back-button"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Employee
+                </a>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ERROR MESSAGE
+            ================================================== -->
+
+            {% if error %}
+
+            <div class="employee-form-alert">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <span>
+                    {{ error }}
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+
+            <!-- =================================================
+                 FORM CARD
+            ================================================== -->
+
+            <div class="employee-form-card">
+
+
+                <!-- FORM HEADER -->
+
+                <div class="form-card-header">
+
+                    <div class="form-card-icon">
+                        <i class="bi bi-person-gear"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            EMPLOYEE PROFILE
+                        </span>
+
+                        <h3>
+                            Update Employee Information
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- FORM -->
+
+                <form
+                    method="POST"
+                    class="employee-form"
+                >
+
+
+                    <!-- =========================================
+                         PERSONAL INFORMATION
+                    ========================================== -->
+
+                    <div class="form-section">
+
+                        <div class="form-card-header-section">
+
+                            <div>
+                                <span class="section-kicker">
+                                    PERSONAL INFORMATION
+                                </span>
+
+                                <h4>
+                                    Employee Details
+                                </h4>
+
+                                <p>
+                                    Update the employee's basic identification information.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="employee-form-grid">
+
+
+                            <!-- Employee Number -->
+
+                            <div class="form-group">
+
+                                <label for="employee_number">
+                                    Employee Number
+                                    <span>*</span>
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-hash"></i>
+
+                                    <input
+                                        type="text"
+                                        id="employee_number"
+                                        name="employee_number"
+                                        value="{{ employee.employee_number or '' }}"
+                                        placeholder="Enter employee number"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Gender -->
+
+                            <div class="form-group">
+
+                                <label for="gender">
+                                    Gender
+                                </label>
+
+                                <div class="select-wrapper">
+
+                                    <i class="bi bi-person"></i>
+
+                                    <select
+                                        id="gender"
+                                        name="gender"
+                                    >
+
+                                        <option value="">
+                                            Select gender
+                                        </option>
+
+                                        <option
+                                            value="Male"
+                                            {% if employee.gender == 'Male' %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Male
+                                        </option>
+
+                                        <option
+                                            value="Female"
+                                            {% if employee.gender == 'Female' %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Female
+                                        </option>
+
+                                        <option
+                                            value="Other"
+                                            {% if employee.gender == 'Other' %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Other
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- First Name -->
+
+                            <div class="form-group">
+
+                                <label for="first_name">
+                                    First Name
+                                    <span>*</span>
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-person"></i>
+
+                                    <input
+                                        type="text"
+                                        id="first_name"
+                                        name="first_name"
+                                        value="{{ employee.first_name or '' }}"
+                                        placeholder="Enter first name"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Last Name -->
+
+                            <div class="form-group">
+
+                                <label for="last_name">
+                                    Last Name
+                                    <span>*</span>
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-person"></i>
+
+                                    <input
+                                        type="text"
+                                        id="last_name"
+                                        name="last_name"
+                                        value="{{ employee.last_name or '' }}"
+                                        placeholder="Enter last name"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         CONTACT INFORMATION
+                    ========================================== -->
+
+                    <div class="form-section">
+
+                        <div class="form-card-header-section">
+
+                            <span class="section-kicker">
+                                CONTACT INFORMATION
+                            </span>
+
+                            <h4>
+                                Contact Details
+                            </h4>
+
+                            <p>
+                                Update the employee's contact information.
+                            </p>
+
+                        </div>
+
+
+                        <div class="employee-form-grid">
+
+
+                            <!-- Email -->
+
+                            <div class="form-group">
+
+                                <label for="email">
+                                    Email Address
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-envelope"></i>
+
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value="{{ employee.email or '' }}"
+                                        placeholder="employee@example.com"
+                                    >
+
+                                </div>
+
+                                <small>
+                                    Used for attendance verification codes.
+                                </small>
+
+                            </div>
+
+
+
+                            <!-- Phone -->
+
+                            <div class="form-group">
+
+                                <label for="phone">
+                                    Phone Number
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-telephone"></i>
+
+                                    <input
+                                        type="text"
+                                        id="phone"
+                                        name="phone"
+                                        value="{{ employee.phone or '' }}"
+                                        placeholder="Enter phone number"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         EMPLOYMENT INFORMATION
+                    ========================================== -->
+
+                    <div class="form-section">
+
+                        <div class="form-card-header-section">
+
+                            <span class="section-kicker">
+                                EMPLOYMENT INFORMATION
+                            </span>
+
+                            <h4>
+                                Position & Department
+                            </h4>
+
+                            <p>
+                                Update the employee's organizational details.
+                            </p>
+
+                        </div>
+
+
+                        <div class="employee-form-grid">
+
+
+                            <!-- Position -->
+
+                            <div class="form-group">
+
+                                <label for="position">
+                                    Position
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                    <input
+                                        type="text"
+                                        id="position"
+                                        name="position"
+                                        value="{{ employee.position or '' }}"
+                                        placeholder="Enter job position"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Department -->
+
+                            <div class="form-group">
+
+                                <label for="department_id">
+                                    Department
+                                </label>
+
+                                <div class="select-wrapper">
+
+                                    <i class="bi bi-building"></i>
+
+                                    <select
+                                        id="department_id"
+                                        name="department_id"
+                                    >
+
+                                        <option value="">
+                                            Select department
+                                        </option>
+
+                                        {% for department in departments %}
+
+                                        <option
+                                            value="{{ department.id }}"
+                                            {% if employee.department_id == department.id %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            {{ department.name }}
+                                        </option>
+
+                                        {% endfor %}
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         FACE ENROLLMENT
+                    ========================================== -->
+
+                    <div class="form-section">
+
+                        <div class="form-card-header-section">
+
+                            <span class="section-kicker">
+                                BIOMETRIC PROFILE
+                            </span>
+
+                            <h4>
+                                Face Recognition Status
+                            </h4>
+
+                            <p>
+                                Face enrollment is managed separately from employee information.
+                            </p>
+
+                        </div>
+
+
+                        <div class="face-enrollment-panel">
+
+                            <div class="face-enrollment-info">
+
+                                <div class="face-enrollment-icon">
+
+                                    <i class="bi bi-person-bounding-box"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        Face Enrollment
+                                    </h4>
+
+                                    <p>
+                                        The employee's facial data is used for attendance recognition.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            {% if employee.face_trained %}
+
+                            <span class="face-enrollment-status complete">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Enrolled
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="face-enrollment-status pending">
+
+                                <i class="bi bi-clock-fill"></i>
+
+                                Not Enrolled
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         ACTIONS
+                    ========================================== -->
+
+                    <div class="form-actions">
+
+                        <a
+                            href="{{ url_for('view_employee', employee_id=employee.id) }}"
+                            class="cancel-button"
+                        >
+                            <i class="bi bi-x-circle"></i>
+                            Cancel
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="save-employee-button"
+                        >
+                            <i class="bi bi-check2-circle"></i>
+                            Save Changes
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 INFORMATION PANEL
+            ================================================== -->
+
+            <div class="employee-info-panel">
+
+                <div class="info-panel-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+
+                <div>
+
+                    <h4>
+                        Employee Information
+                    </h4>
+
+                    <p>
+                        Changes made here are saved directly to the employee
+                        record. Face recognition data is not modified when
+                        updating these details.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FaceAttend | Employees</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Dashboard CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <!-- Employees CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/employees.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="logo-box">
+                <i class="bi bi-person-bounding-box"></i>
+            </div>
+
+            <div class="brand-info">
+                <h2>Face<span>Attend</span></h2>
+                <small>EMPLOYEE ATTENDANCE</small>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-title">MAIN</div>
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link active">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">MANAGEMENT</div>
+
+            <a
+                href="{{ url_for('employees') }}"
+                class="nav-link">
+
+                <i class="bi bi-people"></i>
+
+                <span>
+                    Employees
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('departments') }}"
+                class="nav-link">
+
+                <i class="bi bi-building"></i>
+
+                <span>
+                    Departments
+                </span>
+
+            </a>
+
+
+            <a
+                href="/face-enrollment"
+                class="nav-link">
+
+                <i class="bi bi-person-badge"></i>
+
+                <span>
+                    Face Enrollment
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">ATTENDANCE</div>
+
+            <a
+                href="{{ url_for('face_recognition') }}"
+                class="nav-link">
+
+                <i class="bi bi-camera"></i>
+
+                <span>
+                    Face Recognition
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('attendance') }}"
+                class="nav-link">
+
+                <i class="bi bi-calendar-check"></i>
+
+                <span>
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">REPORTS</div>
+
+            <a
+                href="{{ url_for('reports') }}"
+                class="nav-link">
+
+                <i class="bi bi-file-earmark-bar-graph"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <div class="nav-title">SYSTEM</div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}">
+
+                <i class="bi bi-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+<a
+    href="{{ url_for('audit_logs') }}"
+    class="nav-link"
+>
+    <i class="bi bi-shield-check"></i>
+    <span>Audit Logs</span>
+</a>
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-indicator"></span>
+
+                <span>
+                    System Online
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-link">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <div>
+
+                    <div class="page-label">
+                        EMPLOYEE MANAGEMENT
+                    </div>
+
+                    <h1>
+                        Employees
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button
+                    type="button"
+                    class="icon-button">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <div class="admin-profile">
+
+                    <div class="admin-avatar">
+                        {{ admin_name[0]|upper }}
+                    </div>
+
+
+                    <div class="admin-details">
+
+                        <strong>
+                            {{ admin_name }}
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="employees-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="employees-header">
+
+                <div>
+
+                    <div class="employees-kicker">
+                        WORKFORCE DIRECTORY
+                    </div>
+
+
+                    <h2>
+                        Employee Management
+                    </h2>
+
+
+                    <p>
+                        Manage employee information and face
+                        enrollment records.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('add_employee') }}"
+                    class="add-employee-btn">
+
+                    <i class="bi bi-person-plus-fill"></i>
+
+                    Add Employee
+
+                </a>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+            <div class="employees-alert">
+
+                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                <span>
+                    {{ error }}
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 SUMMARY
+            ================================================== -->
+
+            <div class="employee-summary">
+
+
+                <!-- TOTAL EMPLOYEES -->
+
+                <div class="employee-summary-card">
+
+                    <div class="summary-icon blue">
+
+                        <i class="bi bi-people-fill"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            TOTAL EMPLOYEES
+                        </span>
+
+                        <strong>
+                            {{ employees|length }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FACE READY -->
+
+                <div class="employee-summary-card">
+
+                    <div class="summary-icon green">
+
+                        <i class="bi bi-person-check-fill"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            FACE READY
+                        </span>
+
+                        <strong>
+                            {{
+                                employees
+                                |selectattr('face_trained', 'equalto', 1)
+                                |list
+                                |length
+                            }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PENDING ENROLLMENT -->
+
+                <div class="employee-summary-card">
+
+                    <div class="summary-icon orange">
+
+                        <i class="bi bi-person-badge-fill"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            PENDING ENROLLMENT
+                        </span>
+
+                        <strong>
+                            {{
+                                employees
+                                |selectattr('face_trained', 'equalto', 0)
+                                |list
+                                |length
+                            }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SEARCH / FILTER
+            ================================================== -->
+
+            <div class="employees-toolbar">
+
+                <div class="employee-search">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        id="employeeSearch"
+                        placeholder="Search employee name, number or department...">
+
+                </div>
+
+
+                <div class="employee-count">
+
+                    <i class="bi bi-person-lines-fill"></i>
+
+                    <span id="employeeCount">
+                        {{ employees|length }}
+                    </span>
+
+                    employees
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 EMPLOYEE TABLE
+            ================================================== -->
+
+            <div class="employees-panel">
+
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>
+                            EMPLOYEE DIRECTORY
+                        </span>
+
+                        <h3>
+                            All Employees
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="employees-table-wrapper">
+
+                    <table
+                        class="employees-table"
+                        id="employeesTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    EMPLOYEE
+                                </th>
+
+                                <th>
+                                    EMPLOYEE NO.
+                                </th>
+
+                                <th>
+                                    DEPARTMENT
+                                </th>
+
+                                <th>
+                                    POSITION
+                                </th>
+
+                                <th>
+                                    CONTACT
+                                </th>
+
+                                <th>
+                                    FACE STATUS
+                                </th>
+
+                                <th>
+                                    ACTIONS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="employeeTableBody">
+
+                        {% if employees %}
+
+                            {% for employee in employees %}
+
+                            <tr class="employee-row">
+
+
+                                <!-- EMPLOYEE -->
+
+                                <td>
+
+                                    <div class="employee-profile-cell">
+
+                                        <div class="employee-table-avatar">
+
+                                            {{ employee.first_name[0]|upper }}
+
+                                        </div>
+
+
+                                        <div class="employee-name-block">
+
+                                            <strong>
+
+                                                {{ employee.first_name }}
+                                                {{ employee.last_name }}
+
+                                            </strong>
+
+
+                                            <small>
+
+                                                {{ employee.gender or 'Not specified' }}
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- NUMBER -->
+
+                                <td>
+
+                                    <span class="employee-number">
+
+                                        {{ employee.employee_number }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- DEPARTMENT -->
+
+                                <td>
+
+                                    <span class="department-name">
+
+                                        {{ employee.department_name or 'Unassigned' }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- POSITION -->
+
+                                <td>
+
+                                    <span class="position-name">
+
+                                        {{ employee.position or '--' }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- CONTACT -->
+
+                                <td>
+
+                                    <div class="contact-cell">
+
+                                        {% if employee.email %}
+
+                                            <span>
+
+                                                <i class="bi bi-envelope"></i>
+
+                                                {{ employee.email }}
+
+                                            </span>
+
+                                        {% endif %}
+
+
+                                        {% if employee.phone %}
+
+                                            <span>
+
+                                                <i class="bi bi-telephone"></i>
+
+                                                {{ employee.phone }}
+
+                                            </span>
+
+                                        {% endif %}
+
+
+                                        {% if not employee.email
+                                              and not employee.phone %}
+
+                                            <span>
+                                                --
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- FACE STATUS -->
+
+                                <td>
+
+                                    {% if employee.face_trained == 1 %}
+
+                                        <span
+                                            class="face-status ready">
+
+                                            <span></span>
+
+                                            Ready
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span
+                                            class="face-status pending">
+
+                                            <span></span>
+
+                                            Pending
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="employee-actions">
+
+
+                                       <div class="employee-actions">
+
+    <a
+        href="{{ url_for('view_employee', employee_id=employee.id) }}"
+        class="employee-action view"
+        title="View employee">
+
+        <i class="bi bi-eye"></i>
+
+    </a>
+
+
+    <a
+        href="{{ url_for('edit_employee', employee_id=employee.id) }}"
+        class="employee-action edit"
+        title="Edit employee">
+
+        <i class="bi bi-pencil"></i>
+
+    </a>
+
+
+    <a
+        href="{{ url_for('face_enrollment', employee_id=employee.id) }}"
+        class="employee-action face"
+        title="Face enrollment">
+
+        <i class="bi bi-person-bounding-box"></i>
+
+    </a>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('delete_employee', employee_id=employee.id) }}"
+        class="delete-employee-form"
+        onsubmit="return confirm('Are you sure you want to delete this employee? This will also remove their enrolled face images.');">
+
+        <button
+            type="submit"
+            class="employee-action delete"
+            title="Delete employee">
+
+            <i class="bi bi-trash3"></i>
+
+        </button>
+
+    </form>
+
+</div>
+                                    
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+
+                        {% else %}
+
+                            <!-- EMPTY STATE -->
+
+                            <tr>
+
+                                <td colspan="7">
+
+                                    <div class="employees-empty">
+
+                                        <div class="empty-icon">
+
+                                            <i class="bi bi-people"></i>
+
+                                        </div>
+
+
+                                        <h4>
+                                            No Employees Yet
+                                        </h4>
+
+
+                                        <p>
+                                            Add your first employee
+                                            to begin building the
+                                            workforce directory.
+                                        </p>
+
+
+                                        <a
+                                            href="{{ url_for('add_employee') }}"
+                                            class="add-employee-btn">
+
+                                            <i class="bi bi-person-plus"></i>
+
+                                            Add Employee
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <footer class="employees-footer">
+
+                <span>
+                    FaceAttend
+                </span>
+
+                <span>
+                    /
+                </span>
+
+                <span>
+                    Employee Management
+                </span>
+
+                <span class="footer-space"></span>
+
+                <span>
+                    © 2026 FaceAttend
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- BOOTSTRAP JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- DASHBOARD JS -->
+
+<script
+    src="{{ url_for('static', filename='js/dashboard.js') }}">
+</script>
+
+
+<!-- EMPLOYEES JS -->
+
+<script
+    src="{{ url_for('static', filename='js/employees.js') }}">
+</script>
+
+</body>
+
+</html>
